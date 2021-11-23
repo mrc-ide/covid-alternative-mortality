@@ -1,0 +1,1 @@
+# covid-alternative-mortality
