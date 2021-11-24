@@ -30,20 +30,29 @@ addis_covid_model <- function(n_mcmc,rf){
 
   saveRDS(fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
 
-  sero <- rbind(
-    format_sero_df(seroprev_df_det(fit,
-                                   sero_det = sero_det("igg",igg_sens = 0.914, igg_conv = 13.3))) %>%
-      mutate(antibody = "IgG"),
-    format_sero_df(seroprev_df_det(fit,
-                                   sero_det = set_det("iggm",igg_sens = 0.914, igg_con = 13.3,
-                                                      # scale 54 is approx half-life of 50
-                                                      igm_conv = 12.3, igm_sens = 0.894, igm_scale = 54))) %>%
-      mutate(antibody = "IgG + IgM")
-    )
+  sero_igg <- seroprev_df_det(fit,
+                              sero_det = sero_det("igg", igg_sens = 0.914, igg_conv = 13.3))
+
+  sero_iggm <- seroprev_df_det(fit,
+                               sero_det = sero_det("iggm", igg_sens = 0.914, igg_conv = 13.3,
+                                                   igm_conv = 12.3, igm_sens = 0.894, igm_scale = 54))
+
+  sero <- rbind(format_sero_df(sero_igg) %>% mutate(antibody = "IgG"),
+                format_sero_df(sero_iggm) %>% mutate(antibody = "IgG + IgM"))
 
   saveRDS(sero,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero.RDS")
 
-  return(list(fit = fit, sero = sero))
+  sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
+                          sero_iggm %>% mutate(antibody = "IgG + IgM")) %>%
+    filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
+    summarise(median=median(sero_perc,na.rm=TRUE),
+              lower=quantile(sero_perc,0.025),
+              upper=quantile(sero_perc,0.975))
+
+  saveRDS(sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero_model_est.RDS")
+
+
+  return(list(fit = fit, sero = sero, sero_model_est = sero_model_est))
 
 }
 
@@ -79,47 +88,55 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
                      baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
 
-  sero <- rbind(
-    format_sero_df(seroprev_df_det(fit,
-                                   sero_det = sero_det("igg",igg_sens = 0.914, igg_conv = 13.3))) %>%
-      mutate(antibody = "IgG"),
-    format_sero_df(seroprev_df_det(fit,
-                                   sero_det = set_det("iggm",igg_sens = 0.914, igg_con = 13.3,
-                                                      # scale 54 is approx half-life of 50
-                                                      igm_conv = 12.3, igm_sens = 0.894, igm_scale = 54))) %>%
-      mutate(antibody = "IgG + IgM")
-  )
+  sero_igg <- seroprev_df_det(fit,
+                              sero_det = sero_det("igg", igg_sens = 0.914, igg_conv = 13.3))
+
+  sero_iggm <- seroprev_df_det(fit,
+                               sero_det = sero_det("iggm", igg_sens = 0.914, igg_conv = 13.3,
+                                                   igm_conv = 12.3, igm_sens = 0.894, igm_scale = 54))
+
+  sero <- rbind(format_sero_df(sero_igg) %>% mutate(antibody = "IgG"),
+                format_sero_df(sero_iggm) %>% mutate(antibody = "IgG + IgM"))
 
   saveRDS(sero,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_",
                       baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
+  sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
+                          sero_iggm %>% mutate(antibody = "IgG + IgM")) %>%
+    filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
+    summarise(median=median(sero_perc,na.rm=TRUE),
+              lower=quantile(sero_perc,0.025),
+              upper=quantile(sero_perc,0.975))
 
+  saveRDS(sero_model_est,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_model_est_",
+                                baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
-  return(list(fit = fit, sero = sero))
+  return(list(fit = fit, sero = sero, sero_model_est = sero_model_est))
 
 }
 
 # four fits allowing for the different baselines and peak inclusion
 # we suggest running on a HPC as is computationally intensive
 
-addis_excess_allyears_April <- addis_excess_model(100000,1,"all_years","2020-04-05")
+addis_excess_all_years_April <- addis_excess_model(100000,1,"all_years","2020-04-05")
 
-addis_excess_allyears_June <- addis_excess_model(100000,1,"all_years","2020-06-05")
+addis_excess_all_years_June <- addis_excess_model(100000,1,"all_years","2020-06-05")
 
-addis_excess_only2019_April <- addis_excess_model(100000,1,"only_2019","2020-04-05")
+addis_excess_only_2019_April <- addis_excess_model(100000,1,"only_2019","2020-04-05")
 
-addis_excess_only2019_June <- addis_excess_model(100000,1,"only_2019","2020-06-05")
+addis_excess_only_2019_June <- addis_excess_model(100000,1,"only_2019","2020-06-05")
 
 
 # model estimated seroprevalence over the time of the serosurvey conducted by Abdella et al.
 
-addis_estimated_sero <- rbind(addis_covid$sero %>% mutate(model = "Model predicted (COVID-19)"),
-                              addis_excess_allyears_April$sero %>% mutate(model = "Model predicted (2015 - 19 baseline)"),
-                              addis_excess_allyears_June$sero %>% mutate(model = "Model predicted (2015 - 19 baseline without 1st peak)"),
-                              addis_excess_only2019_April$sero %>% mutate(model = "Model predicted (2019 baseline)"),
-                              addis_excess_only2019_June$sero %>% mutate(model = "Model predicted (2019 baseline without 1st peak)")) %>%
-  filter(date>=as.Date("2020-07-22"),date>=as.Date("2020-08-10")) %>% group_by(antibody,model) %>%
-  summarise(median = median(sero_perc,na.rm=TRUE),
-            lower = quantile(sero_perc,0.025),
-            upper = quantile(sero_perc,0.975))
-saveRDS(addis_estimated_sero,"analysis/data/derived/seroprevalence/Addis/seroprevalence_model_estimates.rds")
+addis_sero_model_est <- rbind(addis_covid$sero_model_est %>% mutate(model = "Model predicted (COVID-19)"),
+                              addis_excess_all_years_April$sero_model_est %>%
+                                mutate(model = "Model predicted (2015 - 19 baseline)"),
+                              addis_excess_all_years_June$sero_model_est %>%
+                                mutate(model = "Model predicted (2015 - 19 baseline without 1st peak)"),
+                              addis_excess_only_2019_April$sero_model_est %>%
+                                mutate(model = "Model predicted (2019 baseline)"),
+                              addis_excess_only_2019_June$sero_model_est %>%
+                                mutate(model = "Model predicted (2019 baseline without 1st peak)"))
+
+saveRDS(addis_sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.rds")
