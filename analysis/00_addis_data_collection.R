@@ -90,7 +90,7 @@ df_covid <- rbind(period_1 %>% select(date,New_deaths_aa),
                   period_2 %>% select(date,New_deaths_aa),
                   period_3 %>% select(date,New_deaths_aa)) %>% rename(deaths = New_deaths_aa)
 
-saveRDS(df_covid,"analysis/data/derived/addis_covid_deaths.RDS")
+saveRDS(df_covid,"analysis/data/derived/deaths_time_series/addis_covid_deaths.rds")
 
 ##### excess deaths #####
 
@@ -148,7 +148,7 @@ draws_2019_only_overall <- draws_2019_only %>% group_by(dateburialgc) %>%
 df_excess <- rbind(draws_all_years_overall %>% mutate("baseline"="all_years"),
                    draws_2019_only_overall %>% mutate("baseline"="only_2019")) %>% data.frame()
 
-saveRDS(df_excess,"analysis/data/derived/addis_excess_deaths.RDS")
+saveRDS(df_excess,"analysis/data/derived/deaths_time_series/addis_excess_deaths.rds")
 
 
 

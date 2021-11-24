@@ -60,7 +60,7 @@ df_covid$deaths[df_covid$deaths==0] <- NA
 
 df2_covid <- fill(df_covid, deaths, .direction = "up")
 df2_covid$deaths <- rev(c(tail(df2_covid$deaths,1), diff(rev(df2_covid$deaths))))
-saveRDS(df2_covid, "analysis/data/derived/aden_covid_deaths.rds")
+saveRDS(df2_covid, "analysis/data/derived/deaths_time_series/aden_covid_deaths.rds")
 
 
 
@@ -74,7 +74,7 @@ df_excess <- read.csv("analysis/data/raw/aden_excess_deaths.csv") %>%
          deaths = rollmean(deaths,k=7,na.pad=TRUE,align="center")) %>%
   filter(date>="2020-03-01",!is.na(deaths))
 
-saveRDS(df_excess,"analysis/data/derived/aden_excess_deaths.rds")
+saveRDS(df_excess,"analysis/data/derived/deaths_time_series/aden_excess_deaths.rds")
 
 
 
