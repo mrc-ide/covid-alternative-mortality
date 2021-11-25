@@ -13,7 +13,7 @@ source("R/sero_utils.R")
 
 addis_covid_model <- function(n_mcmc,rf){
 
-  addis_deaths <- readRDS("analysis/data/derived/addis_covid_deaths.RDS") %>%
+  addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
     filter(date >= as.Date("05/04/2020"))
 
   addis_pop <- readRDS("analysis/data/raw/addis_population.RDS")
@@ -66,7 +66,7 @@ addis_covid <- addis_covid_model(100000,1)
 
 addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
 
-  addis_deaths <- readRDS("analysis/data/derived/addis_excess_deaths.RDS") %>%
+  addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS") %>%
     filter(baseline==baseline_select) %>%  select(dateburialgc,weekly) %>% rename(date=dateburialgc,deaths=weekly) %>%
     mutate(deaths=round(deaths),date=as.Date(date,format="%Y-%m-%d")) %>%
     filter(date >= as.Date(date_filter)&date <= as.Date("2021-01-01")) %>%
