@@ -165,3 +165,17 @@ plot_sero_df <- function(out, color = NULL, ci = TRUE) {
 
   gg
 }
+
+
+## calculate log-likelihood of model-estimated seroprevalence
+
+sero_log_likelihood_aden <- function(sero_fit){
+  sero_pred <- colMeans(sero_fit %>% filter(date>=as.Date("2020-11-28"),date<=as.Date("2020-12-13")) %>% select(sero_perc),
+                        na.rm=TRUE)
+  return(dbinom(x = 549, size = 2001, prob = sero_pred, log = TRUE))
+}
+
+
+
+
+
