@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.travis\.yml$
+orderly_config.yml
+orderly
+src
+arcive
+analysis
+draft
+orderly.sqlite
+backup
