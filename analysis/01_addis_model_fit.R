@@ -28,7 +28,7 @@ addis_covid_model <- function(n_mcmc,rf){
                        hosp_beds = 6867,
                        icu_beds = 103)
 
-  saveRDS(fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
+  #saveRDS(fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
 
   sero_igg <- seroprev_df_det(fit,
                               sero_det = sero_det("igg", igg_sens = 0.914, igg_conv = 13.3))
@@ -61,6 +61,10 @@ addis_covid_model <- function(n_mcmc,rf){
 
 addis_covid <- addis_covid_model(100000,1)
 
+# suppress output so can upload to git
+addis_covid$fit$output <- NULL
+saveRDS(addis_covid$fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
+
 
 ### fit to excess mortality with different baselines and with and without May 2020 peak
 
@@ -84,8 +88,8 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
                        hosp_beds = 6867,
                        icu_beds = 103)
 
-  saveRDS(fit,paste0("analysis/data/derived/model_fits/Addis/addis_excess_fit_",
-                     baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
+  # saveRDS(fit,paste0("analysis/data/derived/model_fits/Addis/addis_excess_fit_",
+  #                    baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
 
   sero_igg <- seroprev_df_det(fit,
@@ -140,3 +144,21 @@ addis_sero_model_est <- rbind(addis_covid$sero_model_est %>% mutate(model = "Mod
                                 mutate(model = "Model predicted (2019 baseline without 1st peak)"))
 
 saveRDS(addis_sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.rds")
+
+# suppress output so can upload to git
+addis_excess_all_years_April$fit$output <- NULL
+addis_excess_all_years_June$fit$output <- NULL
+addis_excess_only_2019_April$fit$output <- NULL
+addis_excess_only_2019_June$fit$output <- NULL
+
+saveRDS(addis_excess_all_years_April$fit,
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_April.RDS")
+saveRDS(addis_excess_all_years_June$fit,
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_June.RDS")
+saveRDS(addis_excess_only_2019_April$fit,
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_April.RDS")
+saveRDS(addis_excess_only_2019_June$fit,
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_June.RDS")
+
+
+
