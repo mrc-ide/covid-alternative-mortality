@@ -72,7 +72,6 @@ ll_IFR_seroreversion <- rbind(
   readRDS("analysis/data/derived/seroprevalence/Aden/aden_ll_IFR05.rds")
 )
 
-# this looks good but the legend is all wrong
 aden_plot_c <- ggplot(ll_IFR_seroreversion)+
   geom_tile(aes(y=IFR,x=half_life,fill=-ll))+
   theme_bw()+
