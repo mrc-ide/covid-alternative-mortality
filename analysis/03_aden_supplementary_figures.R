@@ -7,7 +7,8 @@ source("R/mcmc_utils.R")
 
 # covid fit
 
-aden_covid_fit <- readRDS("analysis/data/derived/model_fits/Aden/aden_covid_fit.RDS")
+aden_covid_fit_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_covid_fit.RDS")
+aden_covid_fit <- generate_draws(aden_covid_fit_raw,generate_parameters(aden_covid_fit_raw,draws=100),parallel=TRUE)
 aden_covid_sero <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_covid_sero.RDS")
 
 aden_covid_deaths_plot <- plot(aden_covid_fit,var_select="deaths",particle_fit=TRUE)+
