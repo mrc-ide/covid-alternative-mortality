@@ -1,4 +1,4 @@
-# plots of model fits and estimated seroprevalence for supplementary material
+# plots of model fits and estimated seroprevalence for supplementary material for Addis
 
 source("R/mcmc_utils.R")
 
@@ -26,12 +26,12 @@ covid_sero_plot <- ggplot(addis_covid_sero)+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
   geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="IgG"),size=5)+
   geom_point(aes(x=as.Date("2020-07-31"),y=0.035*100,shape="IgG + IgM"),size=5)+
-  labs(fill="Model \npredicted",x="Date",y="Seroprevalence (%)",shape="Observed \n(Abdella et al.)",
-       col="Model \npredicted",tag="B")+
+  labs(fill="Model predicted",x="Date",y="Seroprevalence (%)",shape="Observed (Abdella et al.)",
+       col="Model predicted",tag="B")+
   scale_shape_manual(values=c(18,15))+
-  guides(shape=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
-         col=guide_legend(nrow=1,byrow=TRUE,title.position = "top"),
-         fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top"))+
+  guides(shape=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=2),
+         col=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1),
+         fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1))+
   scale_x_date(date_labels = "%b-%y",breaks="1.5 months")+
   scale_y_continuous(breaks=c(0,2,4,6,8,10),limits=c(0,8))+
   scale_colour_viridis_d(begin=0.6,end=0.8)+
