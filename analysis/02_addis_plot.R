@@ -53,7 +53,6 @@ addis_plot_b <- ggplot(excess_all_years_April_sero)+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.054*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
   geom_point(data=abdella,aes(x=date,y=med,shape=antibody),size=5)+
-  #geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="Combined IgG/IgM"),size=5)+
   labs(fill="Model \npredicted",x="Date",y="Seroprevalence (%)",shape="Observed \n(Abdella et al.)",
        col="Model \npredicted",tag="B")+
   scale_shape_manual(values=c(18,15))+

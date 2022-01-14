@@ -20,7 +20,7 @@ aden_covid_sero_plot <- ggplot(aden_covid_sero,aes(x=date,y=med*100,ymin=min*100
   geom_line(aes(col=scenario))+
   geom_ribbon(alpha=0.2,aes(fill=scenario))+
   theme_bw()+
-  geom_point(aes(x=as.Date("2020-12-06"),y=0.274*100,shape="IgG + IgM"),size=3)+
+  geom_point(aes(x=as.Date("2020-12-06"),y=0.274*100,shape="Combined IgG/IgM"),size=3)+
   geom_segment(aes(x=as.Date("2020-11-28"),xend=as.Date("2020-12-13"),y=0.274*100,yend=0.274*100))+
   geom_segment(aes(x=as.Date("2020-12-06"),xend=as.Date("2020-12-06"),y=0.2*100,yend=0.363*100))+
   scale_x_date(date_breaks="1.5 months",date_labels = "%b-%y",limits=c(as.Date("2020-04-01"),as.Date("2020-12-31")))+

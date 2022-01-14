@@ -2,6 +2,11 @@
 
 source("R/mcmc_utils.R")
 
+abdella <- data.frame("date"=rep(as.Date("2020-07-31"),2),
+                      "med"=c(1.9,3.5),
+                      "antibody"=factor(c("IgG","Combined IgG/IgM"),
+                                        levels=c("IgG","Combined IgG/IgM")))
+
 # COVID-19 deaths
 
 addis_covid_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
@@ -24,16 +29,15 @@ covid_sero_plot <- ggplot(addis_covid_sero)+
   geom_segment(aes(x=as.Date("2020-07-31"),xend=as.Date("2020-07-31"),y=0.017*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.054*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="IgG"),size=5)+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.035*100,shape="IgG + IgM"),size=5)+
-  labs(fill="Model predicted",x="Date",y="Seroprevalence (%)",shape="Observed (Abdella et al.)",
-       col="Model predicted",tag="B")+
+  geom_point(data=abdella,aes(x=date,y=med,shape=antibody),size=5)+
+  labs(fill="Model \npredicted",x="Date",y="Seroprevalence (%)",shape="Observed \n(Abdella et al.)",
+       col="Model \npredicted",tag="B")+
   scale_shape_manual(values=c(18,15))+
-  guides(shape=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=2),
-         col=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1),
-         fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1))+
+  guides(shape=guide_legend(nrow=2,byrow=TRUE,title.position = "top"),
+         col=guide_legend(nrow=2,byrow=TRUE,title.position = "top"),
+         fill=guide_legend(nrow=2,byrow=TRUE,title.position = "top"))+
   scale_x_date(date_labels = "%b-%y",breaks="1.5 months")+
-  scale_y_continuous(breaks=c(0,2,4,6,8,10),limits=c(0,8))+
+  scale_y_continuous(breaks=c(0,2,4,6,8,10),limits=c(0,10))+
   scale_colour_viridis_d(begin=0.6,end=0.8)+
   scale_fill_viridis_d(begin=0.6,end=0.8)+
   theme(axis.text.x = element_text(angle=45,hjust=1),
@@ -68,10 +72,9 @@ all_years_April_sero_plot <- ggplot(addis_all_years_April_sero)+
   geom_segment(aes(x=as.Date("2020-07-31"),xend=as.Date("2020-07-31"),y=0.017*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.054*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="IgG"),size=5)+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.035*100,shape="IgG + IgM"),size=5)+
+  geom_point(data=abdella,aes(x=date,y=med,shape=antibody),size=5)+
   labs(fill="Model predicted",x="Date",y="Seroprevalence (%)",shape="Observed (Abdella et al.)",
-       col="Model predicted",tag="C")+
+       col="Model predicted",tag="B")+
   scale_shape_manual(values=c(18,15))+
   guides(shape=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=2),
          col=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1),
@@ -108,14 +111,13 @@ all_years_June_sero_plot <- ggplot(addis_all_years_June_sero)+
   geom_segment(aes(x=as.Date("2020-07-31"),xend=as.Date("2020-07-31"),y=0.017*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.054*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="IgG"),size=5)+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.035*100,shape="IgG + IgM"),size=5)+
-  labs(fill="Model predicted",x="Date",y="Seroprevalence (%)",shape="Observed (Abdella et al.)",
-       col="Model predicted",tag="D")+
+  geom_point(data=abdella,aes(x=date,y=med,shape=antibody),size=5)+
+  labs(fill="Model \npredicted",x="Date",y="Seroprevalence (%)",shape="Observed \n(Abdella et al.)",
+       col="Model \npredicted",tag="B")+
   scale_shape_manual(values=c(18,15))+
-  guides(shape=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=2),
-         col=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1),
-         fill=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1))+
+  guides(shape=guide_legend(nrow=2,byrow=TRUE,title.position = "top"),
+         col=guide_legend(nrow=2,byrow=TRUE,title.position = "top"),
+         fill=guide_legend(nrow=2,byrow=TRUE,title.position = "top"))+
   scale_x_date(date_labels = "%b-%y",breaks="1.5 months")+
   scale_y_continuous(breaks=c(0,2,4,6,8,10),limits=c(0,10))+
   scale_colour_viridis_d(begin=0.6,end=0.8)+
@@ -157,10 +159,9 @@ only_2019_April_sero_plot <- ggplot(addis_only_2019_April_sero)+
   geom_segment(aes(x=as.Date("2020-07-31"),xend=as.Date("2020-07-31"),y=0.017*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.054*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="IgG"),size=5)+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.035*100,shape="IgG + IgM"),size=5)+
+  geom_point(data=abdella,aes(x=date,y=med,shape=antibody),size=5)+
   labs(fill="Model predicted",x="Date",y="Seroprevalence (%)",shape="Observed (Abdella et al.)",
-       col="Model predicted",tag="C")+
+       col="Model predicted",tag="B")+
   scale_shape_manual(values=c(18,15))+
   guides(shape=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=2),
          col=guide_legend(nrow=1,byrow=TRUE,title.position = "top",order=1),
