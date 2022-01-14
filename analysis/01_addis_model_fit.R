@@ -38,12 +38,12 @@ addis_covid_model <- function(n_mcmc,rf){
                                                    igm_conv = 12.3, igm_sens = 0.894, igm_scale = 54))
 
   sero <- rbind(format_sero_df(sero_igg) %>% mutate(antibody = "IgG"),
-                format_sero_df(sero_iggm) %>% mutate(antibody = "IgG + IgM"))
+                format_sero_df(sero_iggm) %>% mutate(antibody = "Combined IgG/IgM"))
 
   saveRDS(sero,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero.RDS")
 
   sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
-                          sero_iggm %>% mutate(antibody = "IgG + IgM")) %>%
+                          sero_iggm %>% mutate(antibody = "Combined IgG/IgM")) %>%
     filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
     summarise(median=median(sero_perc,na.rm=TRUE),
               lower=quantile(sero_perc,0.025),
@@ -100,13 +100,13 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
                                                    igm_conv = 12.3, igm_sens = 0.894, igm_scale = 54))
 
   sero <- rbind(format_sero_df(sero_igg) %>% mutate(antibody = "IgG"),
-                format_sero_df(sero_iggm) %>% mutate(antibody = "IgG + IgM"))
+                format_sero_df(sero_iggm) %>% mutate(antibody = "Combined IgG/IgM"))
 
   saveRDS(sero,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_",
                       baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
   sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
-                          sero_iggm %>% mutate(antibody = "IgG + IgM")) %>%
+                          sero_iggm %>% mutate(antibody = "Combined IgG/IgM")) %>%
     filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
     summarise(median=median(sero_perc,na.rm=TRUE),
               lower=quantile(sero_perc,0.025),

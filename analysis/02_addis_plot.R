@@ -37,6 +37,11 @@ addis_plot_a <- ggplot(addis_deaths)+
 
 excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.RDS")
 
+abdella <- data.frame("date"=rep(as.Date("2020-07-31"),2),
+                      "med"=c(1.9,3.5),
+                      "antibody"=factor(c("IgG","Combined IgG/IgM"),
+                                        levels=c("IgG","Combined IgG/IgM")))
+
 addis_plot_b <- ggplot(excess_all_years_April_sero)+
   theme_bw()+
   geom_ribbon(aes(x=date,ymin=min*100,ymax=max*100,group=antibody,fill=antibody),alpha=0.2)+
@@ -47,8 +52,8 @@ addis_plot_b <- ggplot(excess_all_years_April_sero)+
   geom_segment(aes(x=as.Date("2020-07-31"),xend=as.Date("2020-07-31"),y=0.017*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.054*100,yend=0.054*100))+
   geom_segment(aes(x=as.Date("2020-07-22"),xend=as.Date("2020-08-10"),y=0.017*100,yend=0.017*100))+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="IgG"),size=5)+
-  geom_point(aes(x=as.Date("2020-07-31"),y=0.035*100,shape="IgG + IgM"),size=5)+
+  geom_point(data=abdella,aes(x=date,y=med,shape=antibody),size=5)+
+  #geom_point(aes(x=as.Date("2020-07-31"),y=0.019*100,shape="Combined IgG/IgM"),size=5)+
   labs(fill="Model \npredicted",x="Date",y="Seroprevalence (%)",shape="Observed \n(Abdella et al.)",
        col="Model \npredicted",tag="B")+
   scale_shape_manual(values=c(18,15))+
@@ -68,17 +73,18 @@ addis_plot_b <- ggplot(excess_all_years_April_sero)+
 model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.RDS")
 
 model_estimates <- rbind(model_estimates,
-                         setNames(data.frame("IgG",0.019,0.004,0.037,"Observed (Abdella et al.)"),
+                         setNames(data.frame("IgG",1.9,0.4,3.7,"Observed (Abdella et al.)"),
                                   names(model_estimates)),
-                         setNames(data.frame("IgG + IgM",0.035,0.017,0.054,"Observed (Abdella et al.)"),
-                                  names(model_estimates))) %>%
-  mutate(median=median*100,lower=lower*100,upper=upper*100)
+                         setNames(data.frame("Combined IgG/IgM",3.5,1.7,5.4,"Observed (Abdella et al.)"),
+                                  names(model_estimates))) #%>%
+ # mutate(median=median*100,lower=lower*100,upper=upper*100)
 
 model_estimates$model <- factor(model_estimates$model,
                                 levels=c("Observed (Abdella et al.)","Model predicted (COVID-19)",
                                          "Model predicted (2015 - 19 baseline)", "Model predicted (2019 baseline)",
                                          "Model predicted (2015 - 19 baseline without 1st peak)",
                                          "Model predicted (2019 baseline without 1st peak)"))
+model_estimates$antibody <- factor(model_estimates$antibody,levels=c("IgG","Combined IgG/IgM"))
 
 
 addis_plot_c <- ggplot(model_estimates %>% filter(model!="Model predicted (2015 - 19 baseline)"))+

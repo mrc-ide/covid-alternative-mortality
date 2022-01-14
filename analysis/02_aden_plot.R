@@ -53,7 +53,7 @@ aden_plot_b <- ggplot()+
   scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-03-01"),as.Date("2020-12-31")))+
   labs(x="Date",y="Seroprevalence (%)",col="IgG seroreversion \nhalf-life",
        fill="IgG seroreversion \nhalf-life",shape="Observed",tag="B")+
-  geom_point(aes(x=as.Date("2020-12-06"),y=0.274*100,shape="IgG + IgM"),size=3)+
+  geom_point(aes(x=as.Date("2020-12-06"),y=0.274*100,shape="Combined \nIgG/IgM"),size=3)+
   geom_segment(aes(x=as.Date("2020-11-28"),xend=as.Date("2020-12-13"),y=0.274*100,yend=0.274*100))+
   geom_segment(aes(x=as.Date("2020-12-06"),xend=as.Date("2020-12-06"),y=0.2*100,yend=0.363*100))+
   scale_colour_viridis_d(option="plasma",end=0.75,begin=0.2)+
