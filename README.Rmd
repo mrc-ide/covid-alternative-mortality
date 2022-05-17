@@ -53,7 +53,7 @@ The files at the URL above will generate the results as found in the publication
 
 ### The R package 
 
-This repository is organized as an R package. There are no/negligable R functions exported in this package - the majority of the R code is in the analysis and src directory. The R package structure is here to help manage dependencies, to take advantage of continuous integration, and so we can keep file and data management simple.
+This repository is organized as an R package. There are no/negligable R functions exported in this package - the majority of the R code is in the analysis. The R package structure is here to help manage dependencies, to take advantage of continuous integration, and so we can keep file and data management simple.
 
 To download the package source as you see it on GitHub, for offline browsing, use this line at the shell prompt (assuming you have Git installed on your computer):
 
@@ -61,7 +61,9 @@ To download the package source as you see it on GitHub, for offline browsing, us
 git clone https://github.com/mrc-ide/covid-alternative-mortality.git
 ```
 
-Once the download is complete, open the `covid-alternative-mortality.Rproj` in RStudio to begin working with the package and compendium files. We will endeavour to keep all package dependencies required listed in the DESCRIPTION. This has the advantage of allowing `devtools::install_dev_deps()` to install the required R packages needed to run the code in this repository
+Once the download is complete, open the `covid-alternative-mortality.Rproj` in RStudio to begin working with the package and compendium files. We will endeavour to keep all package dependencies required listed in the DESCRIPTION. 
+
+In addition we use `renv` to track package dependencies for reproducibility. Please use `renv::restore` to restore the state of the project and see https://rstudio.github.io/renv/articles/renv.html for more information.
 
 ### Licenses
 

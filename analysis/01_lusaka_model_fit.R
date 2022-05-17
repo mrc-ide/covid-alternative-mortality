@@ -164,7 +164,7 @@ lusaka_fit <- function(n_mcmc, rf = 1, death_source = "total_burial_registry_com
 
 # fit with 50000 mcmc iterations
 # we suggest running on a HPC as is computationally intensive
-n_mcmc <- 10000
+n_mcmc <- 50000
 death_sources <- c("total_burial_registry_comp",
                    "total_burial_registry_comp_mid",
                   "total_burial_registry_comp_strict",
