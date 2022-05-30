@@ -10,36 +10,33 @@ License: MIT + file LICENCE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    orderly,
-    tidyr,
     dplyr,
-    here,
-    pbapply,
+    tidyr,
+    purrr,
+    furrr,
+    future,
     squire (>= 0.4.34),
-    countrycode,
     scales,
     lubridate,
     readxl,
-    dplyr,
-    gbm,
-    dismo,
-    tidyr,
-    conflicted,
-    gtools,
-    stringi,
-    knitr,
     ggplot2,
     ggrepel,
     magrittr,
-    rvest,
-    xml2,
     grid,
-    ggforce,
     cowplot,
-    RhpcBLASctl,
     grDevices,
-    grImport
+    zoo,
+    ggpubr,
+    viridis,
+    rtweet,
+    tesseract,
+    haven,
+    fitdistrplus,
+    geomtextpath,
+    ggrepel,
+    readxl, 
+    aweek
 Remotes:
-    mrc-ide/squire
+    mrc-ide/squire,
     mrc-ide/odin
 RoxygenNote: 7.1.2
