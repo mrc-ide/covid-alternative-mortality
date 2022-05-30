@@ -263,7 +263,7 @@ for(i in seq_along(fls)) {
     ylab("Cumulative Deaths") + scale_x_date(breaks = "4 months", date_labels = "%b %Y")
 }
 
-supp_1a <- cowplot::plot_grid(plotlist = pl, ncol = 3)
-supp_1b <- cowplot::plot_grid(plotlist = pl2, ncol = 5)
+supp_1a <- cowplot::plot_grid(plotlist = pl, ncol = 3) + theme(plot.background = element_rect(fill="white"))
+supp_1b <- cowplot::plot_grid(plotlist = pl2, ncol = 3) + theme(plot.background = element_rect(fill="white"))
 save_figs("khartoum_model_fits_daily", supp_1a, width = 10, height = 12, root = "analysis/figures/supplementary")
 save_figs("khartoum_model_fits_cumulative", supp_1b, width = 10, height = 12, root = "analysis/figures/supplementary")
