@@ -29,7 +29,7 @@ aden_plot_a <- ggplot(aden_deaths %>% filter(date>as.Date("2020-03-01"),
 
 # (B) Estimated seroprevalence over time under different seroreversion half-lifes
 
-excess_sero <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_excess_complete_sero.rds")
+excess_sero <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_excess_complete_sero.RDS")
 
 sero_scen_join <- excess_sero %>% filter(date >= as.Date("2020-06-15"),date<=as.Date("2020-12-31")) %>%
   mutate(min=min*100,med=med*100,max=max*100)

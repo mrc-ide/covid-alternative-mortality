@@ -5,10 +5,10 @@ library(cowplot)
 
 # (A) Estimated excess vs reported COVID-19 deaths over time
 
-addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
+addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.rds") %>%
   filter(date >= as.Date("05/04/2020"))
 
-addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS") %>%
+addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds") %>%
   select(dateburialgc,weekly,baseline) %>% rename(date=dateburialgc,deaths=weekly) %>%
   mutate(deaths=round(deaths),date=as.Date(date,format="%Y-%m-%d")) %>%
   filter(date >= as.Date("2020-04-01")&date <= as.Date("2021-01-01"))
@@ -65,7 +65,7 @@ addis_plot_b <- ggplot(excess_all_years_April_sero)+
 
 # (c) Model-estimated seroprevalence under difference scenarios
 
-model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.RDS")
+model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.rds")
 
 model_estimates <- rbind(model_estimates,
                          setNames(data.frame("IgG",0.019,0.004,0.037,"Observed (Abdella et al.)"),
