@@ -86,4 +86,20 @@ aden_plot_c <- ggplot(ll_IFR_seroreversion)+
 plot_grid(aden_plot_a,plot_grid(aden_plot_b,aden_plot_c,ncol=2,align="hv"),align="b",nrow=2,rel_heights = c(1,1.5))
 ggsave("analysis/figures/aden_figure_main.png",height=6,width=7)
 
+# ----------------
+
+aden_fit <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete.RDS")
+aden_full <- generate_draws(aden_fit, split(aden_fit$replicate_parameters, rownames(aden_fit$replicate_parameters)), TRUE, draws = 100)
+
+
+left_join(
+  group_by(squire::format_output(aden_full, "D"), replicate) %>%
+  summarise(d = max(y, na.rm = TRUE)),
+  group_by(squire::format_output(aden_full, "S"), replicate) %>%
+    summarise(y = diff(range(y, na.rm = TRUE)))
+) %>%
+  mutate(ifr = (d/y)*100) %>%
+  pull(ifr) %>%
+  quantile()
+
 

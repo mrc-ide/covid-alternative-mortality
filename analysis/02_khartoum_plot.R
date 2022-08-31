@@ -80,23 +80,24 @@ sero_df <- squire::format_output(res, "S", date_0 = max(res$pmcmc_results$inputs
   group_by(date, compartment) %>%
   summarise(med = median(y, na.rm = TRUE),
             min = quantile(y, 0.025, na.rm = TRUE),
-            max = quantile(y, 0.975, na.rm = TRUE)) %>%
+            max = quantile(y, 0.975, na.rm = TRUE),
+            var = var(y, na.rm = TRUE)) %>%
   mutate(across(med:max, ~1-(.x/sum(res$parameters$population)))) %>%
   ungroup %>%
   mutate(across(med:max, difff)) %>%
   mutate(across(med:max, lag, 5, 0)) %>%
   mutate(across(med:max, roll_func, sero_det))
 
-# number for manuscript
-sero_df %>% filter(date == "2021-03-20")
-
 gg_c <- ggplot() +
+  annotate("rect",
+           xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"),
+           ymin = -Inf, ymax = Inf,  fill = "grey", alpha=0.5) +
   geom_ribbon(aes(date, med, ymin = min, ymax = max), alpha = 0.2, fill = viridis::plasma(1, begin = 0.8, end = 0.8), data = sero_df) +
   geom_point(aes(date, med), size = 0, color = NA, data = sero_df) +
   geom_line(aes(date, med), color = viridis::plasma(1, begin = 0.8, end = 0.8), data = sero_df) +
   geom_point(aes(x = as.Date("2021-03-20"), y = omd_sero_med)) +
   geom_errorbar(aes(x = as.Date("2021-03-20"), y = omd_sero_med, ymin = omd_sero_low, ymax = omd_sero_high)) +
-  geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_sero_med), height = 0) +
+  #geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_sero_med), height = 0) +
   ggrepel::geom_text_repel(aes(x = as.Date("2021-03-20"), y = omd_sero_med, label = "Omdurman \nSeroprevalence"),
                            point.padding = 0.8,
                            nudge_x = 0.4,
@@ -132,12 +133,15 @@ D_df <- squire::format_output(res, "D", date_0 = max(res$pmcmc_results$inputs$da
 D_df %>% filter(date == "2021-03-20")
 
 gg_d <- ggplot() +
+  annotate("rect",
+           xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"),
+           ymin = -Inf, ymax = Inf,  fill = "grey", alpha=0.5) +
   geom_ribbon(aes(date, med, ymin = min, ymax = max), alpha = 0.2, fill = viridis::plasma(1, begin = 0.4, end = 0.4), data = D_df) +
   geom_point(aes(date, med), size = 0, color = NA, data = D_df) +
   geom_line(aes(date, med), color = viridis::plasma(1, begin = 0.4, end = 0.4), data = D_df) +
   geom_point(aes(x = as.Date("2021-03-20"), y = omd_deaths_med)) +
   geom_errorbar(aes(x = as.Date("2021-03-20"), y = omd_deaths_med, ymin = omd_deaths_low, ymax = omd_deaths_high)) +
-  geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_deaths_med), height = 0) +
+  #geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_deaths_med), height = 0) +
   ggrepel::geom_text_repel(aes(x = as.Date("2021-03-20"), y = omd_deaths_med, label = "Omdurman Excess Mortality"),
                            point.padding = 0.8,
                            nudge_x = -150,
@@ -184,12 +188,15 @@ sero_df <- squire::format_output(res, "S", date_0 = max(res$pmcmc_results$inputs
   mutate(across(med:max, roll_func, sero_det))
 
 supp_2a <- ggplot() +
+  annotate("rect",
+           xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"),
+           ymin = -Inf, ymax = Inf,  fill = "grey", alpha=0.5) +
   geom_ribbon(aes(date, med, ymin = min, ymax = max), alpha = 0.2, fill = viridis::plasma(1, begin = 0.8, end = 0.8), data = sero_df) +
   geom_point(aes(date, med), size = 0, color = NA, data = sero_df) +
   geom_line(aes(date, med), color = viridis::plasma(1, begin = 0.8, end = 0.8), data = sero_df) +
   geom_point(aes(x = as.Date("2021-03-20"), y = omd_sero_med)) +
   geom_errorbar(aes(x = as.Date("2021-03-20"), y = omd_sero_med, ymin = omd_sero_low, ymax = omd_sero_high)) +
-  geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_sero_med), height = 0) +
+  #geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_sero_med), height = 0) +
   ggrepel::geom_text_repel(aes(x = as.Date("2021-03-20"), y = omd_sero_med, label = "Omdurman \nSeroprevalence"),
                            point.padding = 0.8,
                            nudge_x = 0.4,
@@ -211,12 +218,15 @@ D_df <- squire::format_output(res, "D", date_0 = max(res$pmcmc_results$inputs$da
             max = quantile(y, 0.975, na.rm = TRUE))
 
 supp_2b <- ggplot() +
+  annotate("rect",
+           xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"),
+           ymin = -Inf, ymax = Inf,  fill = "grey", alpha=0.5) +
   geom_ribbon(aes(date, med, ymin = min, ymax = max), alpha = 0.2, fill = viridis::plasma(1, begin = 0.4, end = 0.4), data = D_df) +
   geom_point(aes(date, med), size = 0, color = NA, data = D_df) +
   geom_line(aes(date, med), color = viridis::plasma(1, begin = 0.4, end = 0.4), data = D_df) +
   geom_point(aes(x = as.Date("2021-03-20"), y = omd_deaths_med)) +
   geom_errorbar(aes(x = as.Date("2021-03-20"), y = omd_deaths_med, ymin = omd_deaths_low, ymax = omd_deaths_high)) +
-  geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_deaths_med), height = 0) +
+  #geom_errorbarh(aes(xmin = as.Date("2021-03-01"), xmax = as.Date("2021-04-10"), y = omd_deaths_med), height = 0) +
   ggrepel::geom_text_repel(aes(x = as.Date("2021-03-20"), y = omd_deaths_med, label = "Omdurman Excess Mortality"),
                            point.padding = 0.8,
                            nudge_x = -150,
@@ -267,3 +277,57 @@ supp_1a <- cowplot::plot_grid(plotlist = pl, ncol = 3) + theme(plot.background =
 supp_1b <- cowplot::plot_grid(plotlist = pl2, ncol = 3) + theme(plot.background = element_rect(fill="white"))
 save_figs("khartoum_model_fits_daily", supp_1a, width = 10, height = 12, root = "analysis/figures/supplementary")
 save_figs("khartoum_model_fits_cumulative", supp_1b, width = 10, height = 12, root = "analysis/figures/supplementary")
+
+# -----------------------------------------------
+## Chi-square statistical comparison
+# -----------------------------------------------
+
+# explore all models looked at
+rfs <- c(seq(0.02,0.06, 0.01), 0.07, 0.08, 0.09, 0.1,0.2,0.4, 0.045)
+fits <- paste0("analysis/data/derived/model_fits/Khartoum/khartoum_fit_rf_", rfs, ".rds")
+
+
+res_list <- list(
+  readRDS("analysis/data/derived/model_fits/Khartoum/khartoum_fit_rf_0.04.rds") %>% squire::projections(10),
+  readRDS("analysis/data/derived/model_fits/Khartoum/khartoum_fit_rf_0.045.rds") %>% squire::projections(10)
+)
+difff <- function(x) {c(0, diff(x))}
+
+# In Moser et al. they have already adjusted for test sensitivity and waning performance
+# so just work out the proportion not in S lagged for seroconversion time
+sero_det <- sero_det("iggm", igg_sens = 1, igg_conv = 13.3, igg_scale = Inf)
+
+sero_df_list <- lapply(
+  fits,
+  function(y){
+    res <- readRDS(y)
+    res %>%
+      squire::projections(10) %>%
+  squire::format_output("S", date_0 = max(res$pmcmc_results$inputs$data$date)) %>%
+  group_by(date, compartment, replicate) %>%
+  mutate(across(y, ~1-(.x/sum(res$parameters$population)))) %>%
+  ungroup %>%
+  group_by(replicate) %>%
+  mutate(across(y, difff)) %>%
+  mutate(across(y, lag, 5, 0)) %>%
+  mutate(across(y, roll_func, sero_det)) %>%
+  group_by(date, compartment) %>%
+  summarise(med = median(y, na.rm = TRUE),
+            min = quantile(y, 0.025, na.rm = TRUE),
+            max = quantile(y, 0.975, na.rm = TRUE),
+            var = var(y, na.rm = TRUE))
+})
+
+# number for manuscript of best fitting model at mid point of omdurman sero survey
+sero_comp <- sero_df_list %>% lapply(filter, date == "2021-03-21")
+
+# chi_sq_stat
+chi_sq <- lapply(sero_comp, function(x) {
+  (x$med - omd_sero_med)^2 / (x$var + ((omd_sero_high - omd_sero_low)/3.92)^2)
+})
+
+#
+data.frame("chi-sq" = unlist(chi_sq),
+           "p" = 1-pchisq(unlist(chi_sq), df=1),
+           "rf" = rfs) %>%
+  arrange(rf)
