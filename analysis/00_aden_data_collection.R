@@ -77,6 +77,62 @@ df_excess <- read.csv("analysis/data/raw/aden_excess_deaths.csv") %>%
 saveRDS(df_excess,"analysis/data/derived/deaths_time_series/aden_excess_deaths.rds")
 
 
+### seroprevalence scenarios to consider
+
+## all combinations including IFR
+
+ifr <- c(0.2,0.3,0.4,0.5)
+
+igg_scale_vals <- c(109.5,132,155,176.5,199,219.67,239,266.67,287.5,310)
+igg_scenario <- data.frame("igg_scenario" = c("100 days","120 days","140 days","160 days","180 days","200 days",
+                                              "220 days","240 days","260 days","280 days"),
+                           "igg_serorev"= igg_scale_vals)
+
+combos_igg <- merge(expand.grid("antibody_type"="igg",
+                                "ifr"=ifr,
+                                "igg_serorev"=igg_scale_vals,
+                                "igm_serorev"=54,
+                                "igm_scenario"="50 days"
+),
+igg_scenario,
+by="igg_serorev") %>% mutate()
+
+
+igm_scale_vals <- c(4,9,15,20,26,31.5,37,42.5,48,54,59,65,70,76)
+igm_scenario <- data.frame("igm_scenario" = c("5 days","10 days","15 days","20 days","25 days","30 days",
+                                              "35 days","40 days","45 days","50 days","55 days","60 days","65 days","70 days"),
+                           "igm_serorev"= igm_scale_vals)
+
+combos_igm <- merge(expand.grid("antibody_type"="igm",
+                                "ifr"=ifr,
+                                "igg_serorev"=199,
+                                "igm_serorev"=igm_scale_vals,
+                                "igg_scenario"="180 days"
+),
+igm_scenario,
+by="igm_serorev")
+
+combos_iggm <- merge(merge(expand.grid("antibody_type"="iggm",
+                                       "ifr"=ifr,
+                                       "igg_serorev"=igg_scale_vals,
+                                       "igm_serorev"=igm_scale_vals),
+                           igg_scenario,
+                           by="igg_serorev"),
+                     igm_scenario,
+                     by="igm_serorev")
+
+
+combos_all <- rbind(combos_igg %>% dplyr::select(antibody_type,ifr,igg_serorev,igg_scenario,igm_serorev,igm_scenario),
+                    combos_igm %>% dplyr::select(antibody_type,ifr,igg_serorev,igg_scenario,igm_serorev,igm_scenario),
+                    combos_iggm %>% dplyr::select(antibody_type,ifr,igg_serorev,igg_scenario,igm_serorev,igm_scenario))
+
+saveRDS(combos_all,"analysis/data/derived/seroprevalence/Aden/sero_scenarios_with_IFR.RDS")
+
+
+### now without IFR for use in model fitting function
+
+combos_no_ifr <- combos_all %>% dplyr::select(-ifr) %>% unique()
+saveRDS(combos_no_ifr,"analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.RDS")
 
 
 
