@@ -42,15 +42,25 @@ addis_covid_model <- function(n_mcmc,rf){
 
   saveRDS(sero,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero.RDS")
 
-  sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
-                          sero_iggm %>% mutate(antibody = "Combined IgG/IgM")) %>%
-    filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
-    summarise(median=median(sero_perc,na.rm=TRUE),
-              lower=quantile(sero_perc,0.025),
-              upper=quantile(sero_perc,0.975))
 
-  saveRDS(sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero_model_est.RDS")
+  sero_igg_summary <- sero_igg %>%
+    filter(date>=as.Date("2020-07-22"),
+           date<=as.Date("2020-08-10")) %>%
+    summarise(median = median(sero_perc),
+              var = var(sero_perc))
 
+  sero_iggm_summary <- sero_iggm %>%
+    filter(date>=as.Date("2020-07-22"),
+           date<=as.Date("2020-08-10")) %>%
+    summarise(median = median(sero_perc),
+              var = var(sero_perc))
+
+
+  sero_model_est <- rbind(sero_igg_summary %>% mutate(antibody=="IgG"),
+                          sero_iggm_summary %>% mutate(antibody=="Combined IgG/IgM"))
+
+
+  #saveRDS(sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero_model_est.RDS")
 
   return(list(fit = fit, sero = sero, sero_model_est = sero_model_est))
 
@@ -105,15 +115,34 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
   saveRDS(sero,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_",
                       baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
-  sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
-                          sero_iggm %>% mutate(antibody = "Combined IgG/IgM")) %>%
-    filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
-    summarise(median=median(sero_perc,na.rm=TRUE),
-              lower=quantile(sero_perc,0.025),
-              upper=quantile(sero_perc,0.975))
 
-  saveRDS(sero_model_est,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_model_est_",
-                                baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
+  sero_igg_summary <- sero_igg %>%
+    filter(date>=as.Date("2020-07-22"),
+           date<=as.Date("2020-08-10")) %>%
+    summarise(median = median(sero_perc),
+              var = var(sero_perc))
+
+  sero_iggm_summary <- sero_iggm %>%
+    filter(date>=as.Date("2020-07-22"),
+           date<=as.Date("2020-08-10")) %>%
+    summarise(median = median(sero_perc),
+              var = var(sero_perc))
+
+
+  sero_model_est <- rbind(sero_igg_summary %>% mutate(antibody=="IgG"),
+                          sero_iggm_summary %>% mutate(antibody=="Combined IgG/IgM"))
+
+
+  #
+  # sero_model_est <- rbind(sero_igg %>% mutate(antibody = "IgG"),
+  #                         sero_iggm %>% mutate(antibody = "Combined IgG/IgM")) %>%
+  #   filter(date>=as.Date("2020-07-22")&date<=as.Date("2020-08-10")) %>% group_by(antibody) %>%
+  #   summarise(median=median(sero_perc,na.rm=TRUE),
+  #             lower=quantile(sero_perc,0.025),
+  #             upper=quantile(sero_perc,0.975))
+  #
+  # saveRDS(sero_model_est,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_model_est_",
+  #                               baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
 
   return(list(fit = fit, sero = sero, sero_model_est = sero_model_est))
 
