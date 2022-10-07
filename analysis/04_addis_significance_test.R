@@ -2,7 +2,7 @@
 
 library(tidyverse)
 
-model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.RDS") %>%
+model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.rds") %>%
   mutate(model = ifelse(model=="Model predicted (COVID-19)","Modelled (COVID-19)",
                         ifelse(model=="Model predicted (2015 - 19 baseline)","Modelled (2015 - 19 baseline)",
                                ifelse(model=="Model predicted (2015 - 19 baseline without 1st peak)",
@@ -89,7 +89,7 @@ cs_test(6.26,1.9,0.288,0.709)
 #
 # ### try reading in time series of one of them
 #
-# excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.RDS")
+# excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.rds")
 #
 # data <- excess_all_years_April_sero %>% filter(date>=as.Date("2020-07-22"),
 #                                                date<=as.Date("2020-08-10")) %>% filter(antibody!="IgG") %>%

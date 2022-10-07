@@ -123,7 +123,7 @@ aden_plot_c <- ggplot()+
 # (D) Heatmap of log likelihood of models under different IFRs and seroreversion half-lifes
 
 ## igm constant at 45 days and then can sum together
-ll_IFR_seroreversion <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_excess_ll.RDS") %>%
+ll_IFR_seroreversion <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_excess_ll.rds") %>%
   filter(antibody!="igm",
          igm_scenario=="50 days") %>% group_by(igg_scenario,ifr) %>%
   summarise(ll = sum(ll)) %>%

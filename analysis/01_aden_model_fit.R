@@ -10,9 +10,9 @@ source("R/sero_utils.R")
 
 aden_fit_covid <- function(n_mcmc,rf){
 
-  aden_deaths <- readRDS("analysis/data/derived/deaths_time_series/aden_covid_deaths.RDS")
+  aden_deaths <- readRDS("analysis/data/derived/deaths_time_series/aden_covid_deaths.rds")
 
-  aden_pop <- readRDS("analysis/data/raw/aden_population.RDS")
+  aden_pop <- readRDS("analysis/data/raw/aden_population.rds")
 
   fit <- fit_spline_rt(data=aden_deaths,
                        country="Yemen",
@@ -25,7 +25,7 @@ aden_fit_covid <- function(n_mcmc,rf){
                        icu_beds = 17)
 
 
-  sero_scenarios <- readRDS("analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.RDS")
+  sero_scenarios <- readRDS("analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.rds")
 
   sero_summary <- c()
   sero_ts <- c()
@@ -68,8 +68,8 @@ aden_covid <- aden_fit_covid(100000,1)
 # suppress output so can upload to git
 aden_covid$fit$output <- NULL
 saveRDS(aden_covid$fit,"analysis/data/derived/model_fits/Aden/aden_covid_fit.rds")
-saveRDS(aden_covid$sero_summary,"analysis/data/derived/seroprevalence/Aden/aden_sero_covid_summary.RDS")
-saveRDS(aden_covid$sero_ts,"analysis/data/derived/seroprevalence/Aden/aden_sero_covid_time_series.RDS")
+saveRDS(aden_covid$sero_summary,"analysis/data/derived/seroprevalence/Aden/aden_sero_covid_summary.rds")
+saveRDS(aden_covid$sero_ts,"analysis/data/derived/seroprevalence/Aden/aden_sero_covid_time_series.rds")
 
 
 # fit to excess mortality - default fit
@@ -80,7 +80,7 @@ aden_fit_excess <- function(n_mcmc,rf){
   aden_deaths <- readRDS("analysis/data/derived/deaths_time_series/aden_excess_deaths.rds") %>%
     mutate(deaths = as.integer(ifelse(deaths<0,0,deaths)))
 
-  aden_pop <- readRDS("analysis/data/raw/aden_population.RDS")
+  aden_pop <- readRDS("analysis/data/raw/aden_population.rds")
 
   fit <- fit_spline_rt(data=aden_deaths,
                        country="Yemen",
@@ -120,7 +120,7 @@ aden_fit_excess_vary_IFR <- function(n_mcmc,rf,prob_death_scale,IFR){
   aden_deaths <- readRDS("analysis/data/derived/deaths_time_series/aden_excess_deaths.rds") %>%
     mutate(deaths = as.integer(ifelse(deaths<0,0,deaths)))
 
-  aden_pop <- readRDS("analysis/data/raw/aden_population.RDS")
+  aden_pop <- readRDS("analysis/data/raw/aden_population.rds")
 
   fit <- fit_spline_rt_ifr_change(data=aden_deaths,
                                   country="Yemen",
@@ -138,7 +138,7 @@ aden_fit_excess_vary_IFR <- function(n_mcmc,rf,prob_death_scale,IFR){
 
   ## now do sero
 
-  sero_scenarios <- readRDS("analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.RDS")
+  sero_scenarios <- readRDS("analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.rds")
 
   sero_summary <- c()
   sero_ts <- c()
@@ -225,7 +225,7 @@ excess_sero_summary <- rbind(aden_excess_IFR02$sero_summary,
                              aden_excess_IFR03$sero_summary,
                              aden_excess_IFR04$sero_summary,
                              aden_excess_IFR05$sero_summary)
-saveRDS(excess_sero_ts,"analysis/data/dervied/seroprevalence/Aden/aden_sero_excess_summary.RDS")
+saveRDS(excess_sero_ts,"analysis/data/dervied/seroprevalence/Aden/aden_sero_excess_summary.rds")
 
 
 
@@ -234,7 +234,7 @@ excess_sero_ts <- rbind(aden_excess_IFR02$sero_ts,
                         aden_excess_IFR03$sero_ts,
                         aden_excess_IFR04$sero_ts,
                         aden_excess_IFR05$sero_ts)
-saveRDS(excess_sero_ts,"analysis/data/dervied/seroprevalence/Aden/aden_sero_excess_time_series.RDS")
+saveRDS(excess_sero_ts,"analysis/data/dervied/seroprevalence/Aden/aden_sero_excess_time_series.rds")
 
 
 ## combine sero log likelihood
@@ -242,7 +242,7 @@ excess_sero_ll <- rbind(aden_excess_IFR02$sero_ll,
                         aden_excess_IFR03$sero_ll,
                         aden_excess_IFR04$sero_ll,
                         aden_excess_IFR05$sero_ll)
-saveRDS(excess_sero_ll,"analysis/data/dervied/seroprevalence/Aden/aden_sero_excess_ll.RDS")
+saveRDS(excess_sero_ll,"analysis/data/dervied/seroprevalence/Aden/aden_sero_excess_ll.rds")
 
 
 

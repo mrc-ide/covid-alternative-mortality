@@ -7,9 +7,9 @@ source("R/mcmc_utils.R")
 
 # covid fit
 
-aden_covid_fit_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_covid_fit.RDS")
+aden_covid_fit_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_covid_fit.rds")
 aden_covid_fit <- generate_draws(aden_covid_fit_raw,generate_parameters(aden_covid_fit_raw,draws=100),parallel=TRUE)
-aden_covid_sero <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_covid_time_series.RDS")
+aden_covid_sero <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_covid_time_series.rds")
 
 aden_covid_deaths_plot <- plot(aden_covid_fit,var_select="deaths",particle_fit=TRUE)+
   scale_x_date(date_breaks="1.5 months",date_labels = "%b-%y",limits=c(as.Date("2020-04-01"),as.Date("2020-12-31")))+
@@ -125,7 +125,7 @@ ggsave("analysis/figures/supplementary/aden_covid.png",height=8,width=7)
 
 #####
 
-aden_excess_sero_igm <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_excess_time_series.RDS") %>% filter(antibody=="igm",
+aden_excess_sero_igm <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_excess_time_series.rds") %>% filter(antibody=="igm",
                                                                                                                          ifr==0.3) %>%
   mutate(igm_scenario=factor(igm_scenario,
                              levels=c("5 days","10 days","15 days","20 days","25 days","30 days","35 days","40 days","45 days",
@@ -180,7 +180,7 @@ plot_excess_sero_b <- ggplot(aden_excess_sero_igm %>% filter(igm_scenario %in% c
 
 
 
-aden_excess_sero_iggm <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_excess_time_series.RDS") %>%
+aden_excess_sero_iggm <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_sero_excess_time_series.rds") %>%
   filter(antibody=="iggm",
          ifr==0.3,
          igg_scenario=="180 days") %>%
@@ -229,7 +229,7 @@ ggsave("analysis/figures/supplementary/aden_igm_sero.png",height=6,width=5)
 
 # excess fit
 
-aden_fit_ifr_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete.RDS")
+aden_fit_ifr_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete.rds")
 aden_fit_ifr_draws <-  generate_draws(aden_fit_ifr_raw,generate_parameters(aden_fit_ifr_raw,draws=100),parallel=TRUE)
 
 aden_deaths_ifr_plot <- plot(aden_fit_ifr_draws,var_select="deaths",particle_fit = TRUE)+
@@ -262,7 +262,7 @@ ggsave("analysis/figures/supplementary/aden_excess.png",height=3,width=7)
 
 # IFR 0.2
 
-aden_fit_ifr02_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR02.RDS")
+aden_fit_ifr02_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR02.rds")
 aden_fit_ifr02_draws <-  generate_draws(aden_fit_ifr02_raw,generate_parameters(aden_fit_ifr02_raw,draws=100),parallel=TRUE)
 
 aden_deaths_ifr02_plot <- plot(aden_fit_ifr02_draws,var_select="deaths",particle_fit = TRUE)+
@@ -291,7 +291,7 @@ aden_deaths_ifr02_plot <- plot(aden_fit_ifr02_draws,var_select="deaths",particle
 
 # IFR 0.3
 
-aden_fit_ifr03_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR03.RDS")
+aden_fit_ifr03_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR03.rds")
 aden_fit_ifr03_draws <-  generate_draws(aden_fit_ifr03_raw,generate_parameters(aden_fit_ifr03_raw,draws=100),parallel=TRUE)
 
 aden_deaths_ifr03_plot <- plot(aden_fit_ifr03_draws,var_select="deaths",particle_fit = TRUE)+
@@ -304,7 +304,7 @@ aden_deaths_ifr03_plot <- plot(aden_fit_ifr03_draws,var_select="deaths",particle
 
 # IFR 0.4
 
-aden_fit_ifr04_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR04.RDS")
+aden_fit_ifr04_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR04.rds")
 aden_fit_ifr04_draws <-  generate_draws(aden_fit_ifr04_raw,generate_parameters(aden_fit_ifr04_raw,draws=100),parallel=TRUE)
 
 aden_deaths_ifr04_plot <- plot(aden_fit_ifr04_draws,var_select="deaths",particle_fit = TRUE)+
@@ -316,7 +316,7 @@ aden_deaths_ifr04_plot <- plot(aden_fit_ifr04_draws,var_select="deaths",particle
 
 # IFR 0.5
 
-aden_fit_ifr05_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR05.RDS")
+aden_fit_ifr05_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR05.rds")
 aden_fit_ifr05_draws <-  generate_draws(aden_fit_ifr05_raw,generate_parameters(aden_fit_ifr05_raw,draws=100),parallel=TRUE)
 
 aden_deaths_ifr05_plot <- plot(aden_fit_ifr05_draws,var_select="deaths",particle_fit = TRUE)+
