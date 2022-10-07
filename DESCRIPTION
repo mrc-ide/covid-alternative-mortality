@@ -35,7 +35,8 @@ Imports:
     geomtextpath,
     ggrepel,
     readxl, 
-    aweek
+    aweek,
+    Hmisc
 Remotes:
     mrc-ide/squire,
     mrc-ide/odin
