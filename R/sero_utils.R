@@ -45,7 +45,7 @@ sero_det <- function(ret = "igg",
 
     # seroconversion and scale by max sens
     sero_conv_igm <- pexp(seq_len(pdfl), rate = 1/igm_conv)
-    sero_conv_igm <- (sero_conv_igg/max(sero_conv_igm)) * igm_sens
+    sero_conv_igm <- (sero_conv_igm/max(sero_conv_igm)) * igm_sens
 
     # seroreversion and check for below 0s due to insufficiently long pdf
     sero_det_igm <- sero_conv_igm-pweibull(seq_len(pdfl), 3.7, scale = igm_scale)
@@ -169,10 +169,10 @@ plot_sero_df <- function(out, color = NULL, ci = TRUE) {
 
 ## calculate log-likelihood of model-estimated seroprevalence
 
-sero_log_likelihood_aden <- function(sero_fit){
+sero_log_likelihood_aden <- function(sero_fit,obs_x,obs_n){
   sero_pred <- colMeans(sero_fit %>% filter(date>=as.Date("2020-11-28"),date<=as.Date("2020-12-13")) %>% select(sero_perc),
                         na.rm=TRUE)
-  return(dbinom(x = 549, size = 2001, prob = sero_pred, log = TRUE))
+  return(dbinom(x = obs_x, size = obs_n, prob = sero_pred, log = TRUE))
 }
 
 
