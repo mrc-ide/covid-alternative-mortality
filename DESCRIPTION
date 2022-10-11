@@ -1,0 +1,44 @@
+Package: cam
+Type: Package
+Title: Analysis of alternative COVID-19 mortality data sources
+Version: 0.1.0
+Authors@R: c(
+  person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut", "cre")),
+  person("Ruth", "McCabe", email = "ruth.mccabe@linacre.ox.ac.uk", role = c("aut"))
+  )
+Description: Code repository for analysis of alternative COVID-19 mortality 
+  data sources.
+License: MIT + file LICENCE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0)
+Imports:
+    dplyr,
+    tidyr,
+    purrr,
+    furrr,
+    future,
+    squire (>= 0.4.34),
+    scales,
+    lubridate,
+    ggplot2,
+    ggrepel,
+    magrittr,
+    grid,
+    cowplot,
+    grDevices,
+    zoo,
+    ggpubr,
+    viridis,
+    rtweet,
+    tesseract,
+    haven,
+    fitdistrplus,
+    geomtextpath,
+    readxl, 
+    aweek,
+    Hmisc
+Remotes:
+    mrc-ide/squire,
+    mrc-ide/odin
+RoxygenNote: 7.1.2

@@ -2,7 +2,7 @@
 
 source("R/mcmc_utils.R")
 
-fit_with_hosp_cap_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete.RDS")
+fit_with_hosp_cap_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete.rds")
 fit_with_hosp_cap <-  generate_draws(fit_with_hosp_cap_raw,generate_parameters(fit_with_hosp_cap_raw,draws=100),parallel=TRUE)
 
 plot(fit_with_hosp_cap,particle_fit = TRUE) # beautiful
@@ -12,16 +12,16 @@ plot(fit_with_hosp_cap,particle_fit = TRUE) # beautiful
 
 #IFR 0.2
 
-fit_ifr02_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR02.RDS")
+fit_ifr02_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR02.rds")
 fit_ifr02 <-  generate_draws(fit_ifr02_raw,generate_parameters(fit_ifr02_raw,draws=100),parallel=TRUE)
 plot(fit_ifr02,particle_fit = TRUE)
 (max(squire::format_output(fit_ifr02, "D")$y,na.rm=TRUE) / diff(range(squire::format_output(fit_ifr02, "S")$y,na.rm=TRUE)))*100 #0.202
-# under-estimating deaths - does this mean the difference in model estimated and excess deaths are those due to saturation of healthcare?
+# under-estimating deaths - likely the difference in model estimated and excess deaths are due to saturation of healthcare?
 # based on the demography of Aden, an IFR of 0.2 is too low to explain excess mortality that we observe, in the absence of healthcare constraints
 
 #IFR 0.3
 
-fit_ifr03_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR03.RDS")
+fit_ifr03_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR03.rds")
 fit_ifr03 <-  generate_draws(fit_ifr03_raw,generate_parameters(fit_ifr03_raw,draws=100),parallel=TRUE)
 plot(fit_ifr03,particle_fit = TRUE)
 (max(squire::format_output(fit_ifr03, "D")$y,na.rm=TRUE) / diff(range(squire::format_output(fit_ifr03, "S")$y,na.rm=TRUE)))*100 #0.302
@@ -29,7 +29,7 @@ plot(fit_ifr03,particle_fit = TRUE)
 
 #IFR 0.4
 
-fit_ifr04_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR04.RDS")
+fit_ifr04_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR04.rds")
 fit_ifr04 <-  generate_draws(fit_ifr04_raw,generate_parameters(fit_ifr04_raw,draws=100),parallel=TRUE)
 plot(fit_ifr04,particle_fit = TRUE)
 (max(squire::format_output(fit_ifr04, "D")$y,na.rm=TRUE) / diff(range(squire::format_output(fit_ifr04, "S")$y,na.rm=TRUE)))*100 #0.3905
@@ -37,7 +37,7 @@ plot(fit_ifr04,particle_fit = TRUE)
 
 #IFR 0.5
 
-fit_ifr05_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR05.RDS")
+fit_ifr05_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_complete_IFR05.rds")
 fit_ifr05 <-  generate_draws(fit_ifr05_raw,generate_parameters(fit_ifr05_raw,draws=100),parallel=TRUE)
 plot(fit_ifr05,particle_fit = TRUE)
 (max(squire::format_output(fit_ifr05, "D")$y,na.rm=TRUE) / diff(range(squire::format_output(fit_ifr05, "S")$y,na.rm=TRUE)))*100 #0.4868

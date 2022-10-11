@@ -126,13 +126,13 @@ combos_all <- rbind(combos_igg %>% dplyr::select(antibody_type,ifr,igg_serorev,i
                     combos_igm %>% dplyr::select(antibody_type,ifr,igg_serorev,igg_scenario,igm_serorev,igm_scenario),
                     combos_iggm %>% dplyr::select(antibody_type,ifr,igg_serorev,igg_scenario,igm_serorev,igm_scenario))
 
-saveRDS(combos_all,"analysis/data/derived/seroprevalence/Aden/sero_scenarios_with_IFR.RDS")
+saveRDS(combos_all,"analysis/data/derived/seroprevalence/Aden/sero_scenarios_with_IFR.rds")
 
 
 ### now without IFR for use in model fitting function
 
 combos_no_ifr <- combos_all %>% dplyr::select(-ifr) %>% unique()
-saveRDS(combos_no_ifr,"analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.RDS")
+saveRDS(combos_no_ifr,"analysis/data/derived/seroprevalence/Aden/sero_scenarios_without_IFR.rds")
 
 
 

@@ -13,10 +13,10 @@ source("R/sero_utils.R")
 
 addis_covid_model <- function(n_mcmc,rf){
 
-  addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
+  addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.rds") %>%
     filter(date >= as.Date("05/04/2020"))
 
-  addis_pop <- readRDS("analysis/data/raw/addis_population.RDS")
+  addis_pop <- readRDS("analysis/data/raw/addis_population.rds")
 
   fit <- fit_spline_rt(data=addis_deaths,
                        country="Ethiopia",
@@ -28,7 +28,7 @@ addis_covid_model <- function(n_mcmc,rf){
                        hosp_beds = 6867,
                        icu_beds = 103)
 
-  #saveRDS(fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
+  #saveRDS(fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.rds")
 
   sero_igg <- seroprev_df_det(fit,
                               sero_det = sero_det("igg", igg_sens = 0.914, igg_conv = 13.3))
@@ -40,7 +40,7 @@ addis_covid_model <- function(n_mcmc,rf){
   sero <- rbind(format_sero_df(sero_igg) %>% mutate(antibody = "IgG"),
                 format_sero_df(sero_iggm) %>% mutate(antibody = "Combined IgG/IgM"))
 
-  saveRDS(sero,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero.RDS")
+  saveRDS(sero,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero.rds")
 
 
   sero_igg_summary <- sero_igg %>%
@@ -60,7 +60,7 @@ addis_covid_model <- function(n_mcmc,rf){
                           sero_iggm_summary %>% mutate(antibody=="Combined IgG/IgM"))
 
 
-  #saveRDS(sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero_model_est.RDS")
+  #saveRDS(sero_model_est,"analysis/data/derived/seroprevalence/Addis/addis_covid_sero_model_est.rds")
 
   return(list(fit = fit, sero = sero, sero_model_est = sero_model_est))
 
@@ -73,20 +73,20 @@ addis_covid <- addis_covid_model(100000,1)
 
 # suppress output so can upload to git
 addis_covid$fit$output <- NULL
-saveRDS(addis_covid$fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
+saveRDS(addis_covid$fit,"analysis/data/derived/model_fits/Addis/addis_covid_fit.rds")
 
 
 ### fit to excess mortality with different baselines and with and without May 2020 peak
 
 addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
 
-  addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS") %>%
+  addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds") %>%
     filter(baseline==baseline_select) %>%  select(dateburialgc,weekly) %>% rename(date=dateburialgc,deaths=weekly) %>%
     mutate(deaths=round(deaths),date=as.Date(date,format="%Y-%m-%d")) %>%
     filter(date >= as.Date(date_filter)&date <= as.Date("2021-01-01")) %>%
     mutate(deaths=ifelse(deaths<0,0,deaths))
 
-  addis_pop <- readRDS("analysis/data/raw/addis_population.RDS")
+  addis_pop <- readRDS("analysis/data/raw/addis_population.rds")
 
   fit <- fit_spline_rt(data=addis_deaths,
                        country="Ethiopia",
@@ -99,7 +99,7 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
                        icu_beds = 103)
 
   # saveRDS(fit,paste0("analysis/data/derived/model_fits/Addis/addis_excess_fit_",
-  #                    baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
+  #                    baseline_select,"_",format.Date(date_filter,"%B"),".rds"))
 
 
   sero_igg <- seroprev_df_det(fit,
@@ -113,7 +113,7 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
                 format_sero_df(sero_iggm) %>% mutate(antibody = "Combined IgG/IgM"))
 
   saveRDS(sero,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_",
-                      baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
+                      baseline_select,"_",format.Date(date_filter,"%B"),".rds"))
 
 
   sero_igg_summary <- sero_igg %>%
@@ -142,7 +142,7 @@ addis_excess_model <- function(n_mcmc,rf,baseline_select,date_filter){
   #             upper=quantile(sero_perc,0.975))
   #
   # saveRDS(sero_model_est,paste0("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_model_est_",
-  #                               baseline_select,"_",format.Date(date_filter,"%B"),".RDS"))
+  #                               baseline_select,"_",format.Date(date_filter,"%B"),"\.rds"))
 
   return(list(fit = fit, sero = sero, sero_model_est = sero_model_est))
 
@@ -181,13 +181,13 @@ addis_excess_only_2019_April$fit$output <- NULL
 addis_excess_only_2019_June$fit$output <- NULL
 
 saveRDS(addis_excess_all_years_April$fit,
-        "analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_April.RDS")
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_April.rds")
 saveRDS(addis_excess_all_years_June$fit,
-        "analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_June.RDS")
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_June.rds")
 saveRDS(addis_excess_only_2019_April$fit,
-        "analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_April.RDS")
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_April.rds")
 saveRDS(addis_excess_only_2019_June$fit,
-        "analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_June.RDS")
+        "analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_June.rds")
 
 
 

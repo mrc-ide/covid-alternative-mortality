@@ -9,7 +9,7 @@ abdella <- data.frame("date"= c(as.Date("2020-07-27"),as.Date("2020-08-04")),
 
 # COVID-19 deaths
 
-addis_covid_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_covid_fit.RDS")
+addis_covid_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_covid_fit.rds")
 addis_covid_fit <-  generate_draws(addis_covid_fit_raw,generate_parameters(addis_covid_fit_raw,draws=100),parallel=TRUE)
 
 covid_deaths_plot <- plot(addis_covid_fit,var_select="deaths",particle_fit = TRUE)+
@@ -17,7 +17,7 @@ covid_deaths_plot <- plot(addis_covid_fit,var_select="deaths",particle_fit = TRU
         panel.grid.minor = element_blank()) +
   labs(tag="A") + scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31")))
 
-addis_covid_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_covid_sero.RDS") %>%
+addis_covid_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_covid_sero.rds") %>%
   filter(date>=as.Date("2020-04-01")&date<as.Date("2020-11-01"))
 
 covid_sero_plot <- ggplot(addis_covid_sero)+
@@ -52,7 +52,7 @@ ggsave("analysis/figures/supplementary/addis_covid.png",height=6,width=7)
 
 # excess deaths with 2015 - 2019 baseline
 
-addis_excess_all_years_April_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_April.RDS")
+addis_excess_all_years_April_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_April.rds")
 addis_excess_all_years_April_fit <-  generate_draws(addis_excess_all_years_April_fit_raw,
                                                     generate_parameters(addis_excess_all_years_April_fit_raw,
                                                                         draws=100),parallel=TRUE)
@@ -63,7 +63,7 @@ excess_deaths_all_years_April_plot <- plot(addis_excess_all_years_April_fit,var_
   labs(tag="A") + scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31")))+
   scale_y_continuous(limits=c(0,25))
 
-addis_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.RDS") %>%
+addis_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.rds") %>%
   filter(date>=as.Date("2020-04-01")&date<as.Date("2020-11-01"))
 
 all_years_April_sero_plot <- ggplot(addis_all_years_April_sero)+
@@ -94,7 +94,7 @@ all_years_April_sero_plot <- ggplot(addis_all_years_April_sero)+
 
 # excess deaths with 2015 - 2019 baseline + no first peak
 
-addis_excess_all_years_June_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_June.RDS")
+addis_excess_all_years_June_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_all_years_June.rds")
 addis_excess_all_years_June_fit <-  generate_draws(addis_excess_all_years_June_fit_raw,
                                                     generate_parameters(addis_excess_all_years_June_fit_raw,
                                                                         draws=100),parallel=TRUE)
@@ -105,7 +105,7 @@ excess_deaths_all_years_June_plot <- plot(addis_excess_all_years_June_fit,var_se
   labs(tag="B") + scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31")))+
   scale_y_continuous(limits=c(0,25))
 
-addis_all_years_June_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_June.RDS") %>%
+addis_all_years_June_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_June.rds") %>%
   filter(date>=as.Date("2020-04-01")&date<as.Date("2020-11-01"))
 
 all_years_June_sero_plot <- ggplot(addis_all_years_June_sero)+
@@ -145,7 +145,7 @@ ggsave("analysis/figures/supplementary/addis_excess_all_years.png",height=6,widt
 
 # excess deaths with 2019 baseline
 
-addis_excess_only_2019_April_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_April.RDS")
+addis_excess_only_2019_April_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_April.rds")
 addis_excess_only_2019_April_fit <-  generate_draws(addis_excess_only_2019_April_fit_raw,
                                                     generate_parameters(addis_excess_only_2019_April_fit_raw,
                                                                         draws=100),parallel=TRUE)
@@ -156,7 +156,7 @@ excess_deaths_only_2019_April_plot <- plot(addis_excess_only_2019_April_fit,var_
   labs(tag="A") + scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31")))+
   scale_y_continuous(limits=c(0,35))
 
-addis_only_2019_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_only_2019_April.RDS")
+addis_only_2019_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_only_2019_April.rds")
 
 only_2019_April_sero_plot <- ggplot(addis_only_2019_April_sero)+
   theme_bw()+
@@ -186,7 +186,7 @@ only_2019_April_sero_plot <- ggplot(addis_only_2019_April_sero)+
 
 # excess deaths with 2019 baseline + no first peak
 
-addis_excess_only_2019_June_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_June.RDS")
+addis_excess_only_2019_June_fit_raw <- readRDS("analysis/data/derived/model_fits/Addis/addis_excess_fit_only_2019_June.rds")
 addis_excess_only_2019_June_fit <-  generate_draws(addis_excess_only_2019_June_fit_raw,
                                                    generate_parameters(addis_excess_only_2019_June_fit_raw,
                                                                        draws=100),parallel=TRUE)
@@ -197,7 +197,7 @@ excess_deaths_only_2019_June_plot <- plot(addis_excess_only_2019_June_fit,var_se
   labs(tag="B") + scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31")))+
   scale_y_continuous(limits=c(0,35))
 
-addis_only_2019_June_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_only_2019_June.RDS")
+addis_only_2019_June_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_only_2019_June.rds")
 
 only_2019_June_sero_plot <- ggplot(addis_only_2019_June_sero)+
   theme_bw()+
@@ -241,10 +241,10 @@ ggsave("analysis/figures/supplementary/addis_excess_only_2019.png",height=6,widt
 
 ### I don't think we need to show deaths again
 
-# addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
+# addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.rds") %>%
 #   filter(date >= as.Date("05/04/2020"))
 #
-# addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS") %>%
+# addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds") %>%
 #   select(dateburialgc,weekly,baseline) %>% rename(date=dateburialgc,deaths=weekly) %>%
 #   mutate(deaths=round(deaths),date=as.Date(date,format="%Y-%m-%d")) %>%
 #   filter(date >= as.Date("2020-04-01")&date <= as.Date("2021-01-01"))
@@ -308,7 +308,7 @@ ggsave("analysis/figures/supplementary/addis_excess_only_2019.png",height=6,widt
 
 # (B) Estimated seroprevalence over time from model fit to excess mortality with 2015 - 2019 baseline
 
-#excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.RDS")
+#excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.rds")
 
 abdella <- data.frame("date"=c(as.Date("2020-07-24"),as.Date("2020-08-03"),
                                as.Date("2020-07-29"),as.Date("2020-08-08")),
@@ -347,7 +347,7 @@ addis_plot_c <- ggplot(addis_all_years_April_sero  %>% filter(date>=as.Date("202
         panel.grid.minor = element_blank())
 
 
-model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.RDS") %>%
+model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.rds") %>%
   mutate(model = ifelse(model=="Model predicted (COVID-19)","Modelled (COVID-19)",
                         ifelse(model=="Model predicted (2015 - 19 baseline)","Modelled (2015 - 19 baseline)",
                                ifelse(model=="Model predicted (2015 - 19 baseline without 1st peak)",
@@ -467,12 +467,18 @@ plot_grid(#cowplot::get_legend(addis_plot_a_legend),
           nrow=2,rel_heights=c(1,0.25))
 ggsave("analysis/figures/supplementary/addis_unweighted.png",height=5,width=8)
 
+### addis excess comparison
 
-
-
-
-
-
-
-
+df_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds")
+df_excess %>% filter(dateburialgc < "2020-11-01" & dateburialgc > "2020-04-01") %>%
+  ggplot(aes(dateburialgc, zoo::rollmean(deaths,7,TRUE), color = baseline)) +
+  geom_line() +
+  xlab("Date") +
+  ylab("Excess Deaths") +
+  theme_bw() +
+  scale_color_discrete(labels = c("2015 - 2019", "2019 only"), name = "Baseline:") +
+  theme(legend.position = "top") +
+  scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31"))) +
+  theme(axis.text.x = element_text(angle=45,hjust=1))
+ggsave("analysis/figures/supplementary/addis_excess_comp.png",height=5,width=6)
 

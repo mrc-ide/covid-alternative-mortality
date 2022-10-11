@@ -6,10 +6,10 @@ library(cowplot)
 
 # (A) Estimated excess vs reported COVID-19 deaths over time
 
-addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
+addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.rds") %>%
   filter(date >= as.Date("2020-04-05")&date < as.Date("2020-11-01"))
 
-addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS") %>%
+addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds") %>%
   select(dateburialgc,weekly,baseline) %>% rename(date=dateburialgc,deaths=weekly) %>%
   mutate(deaths=round(deaths),date=as.Date(date,format="%Y-%m-%d")) %>%
   filter(date >= as.Date("2020-04-01")&date < as.Date("2020-11-01"))
@@ -73,7 +73,7 @@ addis_plot_b <- ggplot(addis_deaths %>% filter(baseline_label=="2019 baseline"))
 
 # (B) Estimated seroprevalence over time from model fit to excess mortality with 2015 - 2019 baseline
 
-excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.RDS")
+excess_all_years_April_sero <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_excess_sero_all_years_April.rds")
 
 abdella <- data.frame(#"date"=rep(as.Date("2020-07-31"),2),
   "date"= c(as.Date("2020-07-27"),as.Date("2020-08-04")),
@@ -146,7 +146,7 @@ addis_plot_c <- ggplot(excess_all_years_April_sero %>% filter(date>=as.Date("202
 
 # (c) Model-estimated seroprevalence under difference scenarios
 
-model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.RDS") %>%
+model_estimates <- readRDS("analysis/data/derived/seroprevalence/Addis/addis_seroprevalence_model_estimates.rds") %>%
   mutate(model = ifelse(model=="Model predicted (COVID-19)","Modelled (COVID-19)",
                         ifelse(model=="Model predicted (2015 - 19 baseline)","Modelled (2015 - 19 baseline)",
                                ifelse(model=="Model predicted (2015 - 19 baseline without 1st peak)",

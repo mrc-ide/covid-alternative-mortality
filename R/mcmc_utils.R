@@ -60,7 +60,9 @@ generate_parameters <- function(out, draws = 10){
 #' @param draws How many draws are being used from pars_list. Default = NULL,
 #'   which will use all the pars.
 #' @param interventions Are new interventions being used or default. Default = NULL
+#' @param log_likelihood Log likelihood function. Default = NULL
 generate_draws <- function(out, pars_list, parallel = FALSE,
+                           log_likelihood = NULL,
                            draws = NULL, interventions = NULL){
 
   # handle for no death days
@@ -103,7 +105,9 @@ generate_draws <- function(out, pars_list, parallel = FALSE,
   pmcmc_results <- pmcmc
   n_particles <- 2
   forecast_days <- 0
+  if(is.null(log_likelihood)) {
   log_likelihood <- squire:::calc_loglikelihood
+  }
   replicates <- draws
   #recreate params_smpl object
   params_smpl <- do.call(rbind, pars_list)

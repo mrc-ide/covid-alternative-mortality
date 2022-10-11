@@ -51,10 +51,10 @@ test_stat <- (obs-exp)^2/exp
 #### correlation between covid and excess death time series
 
 
-addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
+addis_covid <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.rds") %>%
   filter(date >= as.Date("2020-04-05")&date<as.Date("2020-11-01"))
 
-addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS") %>%
+addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds") %>%
   select(dateburialgc,weekly,baseline) %>% rename(date=dateburialgc,deaths=weekly) %>%
   mutate(deaths=round(deaths),date=as.Date(date,format="%Y-%m-%d")) %>%
   filter(date >= as.Date("2020-04-01")&date<as.Date("2020-11-01"))
@@ -92,7 +92,7 @@ addis_deaths %>% filter(date>=as.Date("2020-06-01")) %>%
 
 ## addis total excess mortality under the different baselines
 
-addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.RDS")
+addis_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds")
 
 #%>%
 # filter(baseline==baseline_select) %>%  select(dateburialgc,weekly) %>% rename(date=dateburialgc,deaths=weekly) %>%
@@ -110,9 +110,10 @@ addis_excess %>% filter(baseline=="all_years",dateburialgc>=as.Date("2020-06-05"
 addis_excess %>% filter(baseline=="only_2019",dateburialgc>=as.Date("2020-06-05"),dateburialgc<=as.Date("2020-10-31"),weekly>=0)  %>% dplyr::select(weekly) %>% sum() %>% round() # 2137
 
 
-addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.RDS") %>%
+addis_deaths <- readRDS("analysis/data/derived/deaths_time_series/addis_covid_deaths.rds") %>%
   filter(date >= as.Date("05/04/2020"),date<=as.Date("2020-10-31"))
 addis_deaths$deaths %>% sum() ## 1064
+
 
 
 
