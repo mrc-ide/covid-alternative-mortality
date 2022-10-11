@@ -47,7 +47,7 @@ analysis/
 
 ### Compendium DOI: 
  
-http://dx.doi.org/xxxxxxx
+https://doi.org/10.5281/zenodo.7185171
 
 The files at the URL above will generate the results as found in the publication.
 
