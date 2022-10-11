@@ -11,3 +11,5 @@ analysis
 draft
 orderly.sqlite
 backup
+scripts
+^README.Rmd

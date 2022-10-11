@@ -3,12 +3,15 @@ Type: Package
 Title: Analysis of alternative COVID-19 mortality data sources
 Version: 0.1.0
 Authors@R: c(
-  person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut", "cre"))
+  person("OJ", "Watson", email = "o.watson15@imperial.ac.uk", role = c("aut", "cre")),
+  person("Ruth", "McCabe", email = "ruth.mccabe@linacre.ox.ac.uk", role = c("aut"))
   )
-Description: Code repository for analysis of alternative COVID-19 mortality data sources
+Description: Code repository for analysis of alternative COVID-19 mortality 
+  data sources.
 License: MIT + file LICENCE
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5.0)
 Imports:
     dplyr,
     tidyr,
@@ -18,7 +21,6 @@ Imports:
     squire (>= 0.4.34),
     scales,
     lubridate,
-    readxl,
     ggplot2,
     ggrepel,
     magrittr,
@@ -33,7 +35,6 @@ Imports:
     haven,
     fitdistrplus,
     geomtextpath,
-    ggrepel,
     readxl, 
     aweek,
     Hmisc

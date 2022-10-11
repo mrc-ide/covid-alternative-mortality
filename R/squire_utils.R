@@ -716,10 +716,15 @@ run_deterministic_comparison_lusaka <- function(data, squire_model, model_params
 #'
 #' @inheritParams squire::pmcmc
 #' @inheritParams squire::parameters_explicit_SEEIR
+#' @inheritParams fit_spline_rt
 #' @param hosp_beds General Hospital Beds
 #' @param icu_beds ICU Beds
 #' @param rw_duration Random Walk/Spline Duration. Default = 14 days
 #' @param reporting_fraction_bounds Region to vary reporting fraction
+#' @param sero_det Seroprev detectability curve
+#' @param sero_df Serology data frame to compare against
+#' @param pcr_det PCR detectability curve
+#' @param pcr_df PCR data frame to compare against
 #'
 #' @return Model fit from [squire:::pmcmc]
 #' @export

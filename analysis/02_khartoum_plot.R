@@ -331,3 +331,14 @@ data.frame("chi-sq" = unlist(chi_sq),
            "p" = 1-pchisq(unlist(chi_sq), df=1),
            "rf" = rfs) %>%
   arrange(rf)
+
+
+# And for comparison against FETP
+
+1 - pchisq(
+  lapply(sero_df_list[4], function(x) {filter(x, date == "2020-06-13")}) %>%
+  lapply(function(x) {
+    (x$med - 0.183)^2 / (x$var + ((0.209 - 0.160)/3.92)^2)
+  }) %>%
+  unlist,
+  df = 1)

@@ -15,7 +15,7 @@ df_ephi <- data.frame(read_excel("analysis/data/raw/addis_deaths_ephi.xlsx",shee
 # nationally reported deaths for Ethiopia
 
 df_who_eth <- read.csv("https://covid19.who.int/WHO-COVID-19-global-data.csv") %>%
-  rename(date = ï..Date_reported) %>% filter(Country=="Ethiopia") %>% mutate(date=as.Date(date)) %>%
+  rename(date = Date_reported) %>% filter(Country=="Ethiopia") %>% mutate(date=as.Date(date)) %>%
   filter(date<=as.Date("2021-01-07")) %>%
   mutate(epiweek = date2week(date, floor_day = TRUE)) %>% group_by(epiweek) %>%
   mutate(epiweek_number=as.numeric(substring(epiweek,7,8)),
@@ -149,6 +149,4 @@ df_excess <- rbind(draws_all_years_overall %>% mutate("baseline"="all_years"),
                    draws_2019_only_overall %>% mutate("baseline"="only_2019")) %>% data.frame()
 
 saveRDS(df_excess,"analysis/data/derived/deaths_time_series/addis_excess_deaths.rds")
-
-
 

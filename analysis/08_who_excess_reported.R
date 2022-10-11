@@ -83,6 +83,8 @@ ggsave("analysis/figures/who_covid_excess.png",height=5,width=4)
 
 ## rough reporting fractions
 
+cdiff <- function(x){ c(0,diff(x)) }
+
 # who_df %>% filter(country=="Ethiopia",date<as.Date("2020-10-31"),date>=as.Date("2020-04-01")) %>%
 #   mutate(excess = ifelse(excess_deaths<0,0,excess_deaths),
 #          rf = sum(reported_deaths)/sum(excess)) # 8.7%
@@ -91,6 +93,14 @@ who_df %>% filter(country=="Ethiopia",date<as.Date("2020-10-31"),date>=as.Date("
   mutate(excess = ifelse(excess_deaths<0,0,excess_deaths)) %>%
   summarise(covid = sum(reported_deaths),excess = sum(excess),
             rf = covid/excess)
+
+who_df %>% filter(country=="Ethiopia",date<as.Date("2020-11-01")) %>%
+  arrange(year, month) %>%
+  mutate(across(cumul.excess.mean:cumul.excess.high, .fns = cdiff)) %>%
+  relocate(date) %>%
+  filter(date>=as.Date("2020-04-01")) %>%
+  summarise(across(reported_deaths:cumul.excess.high, sumpos)) %>%
+  mutate(across(cumul.excess.mean:cumul.excess.high, .fns = function(x){reported_deaths/x}, .names = "{.col}_rf"))
 
 
 # who_excess %>% filter(country=="Ethiopia",year==2020,month>=4,excess.mean>0) %>% data.frame()  %>% summarise(sum(excess.mean)) ## this gets the old total
@@ -105,6 +115,15 @@ who_df %>% filter(country=="Yemen",date<as.Date("2020-10-01"),date>=as.Date("202
   summarise(covid = sum(reported_deaths),excess = sum(excess),
             rf = covid/excess)
 
+who_df %>% filter(country=="Yemen",date<as.Date("2020-10-01")) %>%
+  arrange(year, month) %>%
+  mutate(across(cumul.excess.mean:cumul.excess.high, .fns = cdiff)) %>%
+  relocate(date) %>%
+  filter(date>=as.Date("2020-03-01")) %>%
+  summarise(across(reported_deaths:cumul.excess.high, sumpos)) %>%
+  mutate(across(cumul.excess.mean:cumul.excess.high, .fns = function(x){reported_deaths/x}, .names = "{.col}_rf"))
+
+
 
 # who_df %>% filter(country=="Sudan",date<as.Date("2020-10-01"),date>=as.Date("2020-03-01")) %>%
 #   mutate(excess = ifelse(excess_deaths<0,0,excess_deaths),
@@ -115,3 +134,12 @@ who_df %>%filter(country=="Sudan",date<as.Date("2020-10-01"),date>=as.Date("2020
   mutate(excess = ifelse(excess_deaths<0,0,excess_deaths)) %>%
   summarise(covid = sum(reported_deaths),excess = sum(excess),
             rf = covid/excess)
+
+who_df %>% filter(country=="Sudan",date<as.Date("2021-04-01")) %>%
+  arrange(year, month) %>%
+  mutate(across(cumul.excess.mean:cumul.excess.high, .fns = cdiff)) %>%
+  relocate(date) %>%
+  filter(date>=as.Date("2020-03-01")) %>%
+  summarise(across(reported_deaths:cumul.excess.high, sumpos)) %>%
+  mutate(across(cumul.excess.mean:cumul.excess.high, .fns = function(x){reported_deaths/x}, .names = "{.col}_rf"))
+

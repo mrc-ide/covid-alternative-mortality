@@ -16,7 +16,7 @@ fit_ifr02_raw <- readRDS("analysis/data/derived/model_fits/Aden/aden_excess_fit_
 fit_ifr02 <-  generate_draws(fit_ifr02_raw,generate_parameters(fit_ifr02_raw,draws=100),parallel=TRUE)
 plot(fit_ifr02,particle_fit = TRUE)
 (max(squire::format_output(fit_ifr02, "D")$y,na.rm=TRUE) / diff(range(squire::format_output(fit_ifr02, "S")$y,na.rm=TRUE)))*100 #0.202
-# under-estimating deaths - does this mean the difference in model estimated and excess deaths are those due to saturation of healthcare?
+# under-estimating deaths - likely the difference in model estimated and excess deaths are due to saturation of healthcare?
 # based on the demography of Aden, an IFR of 0.2 is too low to explain excess mortality that we observe, in the absence of healthcare constraints
 
 #IFR 0.3

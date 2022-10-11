@@ -60,6 +60,7 @@ generate_parameters <- function(out, draws = 10){
 #' @param draws How many draws are being used from pars_list. Default = NULL,
 #'   which will use all the pars.
 #' @param interventions Are new interventions being used or default. Default = NULL
+#' @param log_likelihood Log likelihood function. Default = NULL
 generate_draws <- function(out, pars_list, parallel = FALSE,
                            log_likelihood = NULL,
                            draws = NULL, interventions = NULL){

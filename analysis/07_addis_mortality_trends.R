@@ -116,3 +116,4 @@ addis_deaths$deaths %>% sum() ## 1064
 
 
 
+

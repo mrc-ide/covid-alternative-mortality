@@ -467,12 +467,18 @@ plot_grid(#cowplot::get_legend(addis_plot_a_legend),
           nrow=2,rel_heights=c(1,0.25))
 ggsave("analysis/figures/supplementary/addis_unweighted.png",height=5,width=8)
 
+### addis excess comparison
 
-
-
-
-
-
-
-
+df_excess <- readRDS("analysis/data/derived/deaths_time_series/addis_excess_deaths.rds")
+df_excess %>% filter(dateburialgc < "2020-11-01" & dateburialgc > "2020-04-01") %>%
+  ggplot(aes(dateburialgc, zoo::rollmean(deaths,7,TRUE), color = baseline)) +
+  geom_line() +
+  xlab("Date") +
+  ylab("Excess Deaths") +
+  theme_bw() +
+  scale_color_discrete(labels = c("2015 - 2019", "2019 only"), name = "Baseline:") +
+  theme(legend.position = "top") +
+  scale_x_date(date_labels = "%b-%y",breaks="1.5 months",limits=c(as.Date("2020-04-01"),as.Date("2020-10-31"))) +
+  theme(axis.text.x = element_text(angle=45,hjust=1))
+ggsave("analysis/figures/supplementary/addis_excess_comp.png",height=5,width=6)
 
