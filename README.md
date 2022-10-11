@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![minimal R
-version](https://img.shields.io/badge/R%3E%3D-4.2.0-brightgreen.svg)](https://cran.r-project.org/)
+version](https://img.shields.io/badge/R%3E%3D-4.2.1-brightgreen.svg)](https://cran.r-project.org/)
 [![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/)
 
 ## Research compendium for alternative COVID-19 mortality analyses
@@ -35,7 +35,7 @@ The structure within analysis is as follows:
 
 ### Compendium DOI:
 
-<http://dx.doi.org/xxxxxxx>
+<https://doi.org/10.5281/zenodo.7185171>
 
 The files at the URL above will generate the results as found in the
 publication.
