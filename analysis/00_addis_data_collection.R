@@ -150,3 +150,159 @@ df_excess <- rbind(draws_all_years_overall %>% mutate("baseline"="all_years"),
 
 saveRDS(df_excess,"analysis/data/derived/deaths_time_series/addis_excess_deaths.rds")
 
+## analysis of trends
+
+baseline_trends <- deaths_by_date %>%
+  filter(dateburialgc >= "2015-01-01") %>%
+  group_by(month,yr) %>%
+  summarise(nb = list(fitdistrplus::fitdist(sum, "nbinom")))
+
+extract_mean <- function(x){
+  x$estimate[2]
+}
+
+#baseline_trends %>% ungroup() %>% mutate(mean = extract_mean(nb))
+
+baseline_trends <- baseline_trends %>% ungroup() %>%
+  mutate(mean = unlist(lapply(baseline_trends$nb,extract_mean)),
+         date = as.Date(paste0("1-",month,"-",yr),format="%d-%m-%Y"))
+
+ggplot(baseline_trends %>% filter(date<as.Date("2020-01-01")),aes(x=date,y=mean))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth(method="lm")+
+  labs(x="Date",y="Number of deaths \n(mean from Negative Binomial distribution)")
+
+# lm(data=baseline_trends %>% filter(date<as.Date("2020-01-01")),mean~date) %>% summary()
+# glm(data=baseline_trends %>% filter(date<as.Date("2020-01-01")),round(mean)~date,
+#     family="poisson") %>% summary()
+
+
+ggplot(baseline_trends %>% filter(date<as.Date("2019-01-01")),aes(x=date,y=mean))+
+  geom_point()+
+  theme_bw()+
+  geom_smooth(method="lm")+
+  labs(x="Date",y="Number of deaths \n(mean from Negative Binomial distribution)")
+
+# lm(data=baseline_trends %>% filter(date<as.Date("2019-01-01")),mean~date) %>% summary()
+# glm(data=baseline_trends%>% filter(date<as.Date("2019-01-01")),round(mean)~date,family="poisson") %>% summary()
+
+
+ggplot()+
+  theme_bw()+
+  geom_point(data=baseline_trends %>% filter(date<as.Date("2020-01-01")),aes(x=date,y=mean))+
+  geom_smooth(data=baseline_trends %>% filter(date<as.Date("2020-01-01")),
+              aes(x=date,y=round(mean),col="2015 - 2019",fill="2015 - 2019"),
+              method="glm",alpha=0.25,lwd=1.5,method.args = list(family = "poisson"))+
+  geom_smooth(data=baseline_trends %>% filter(date<as.Date("2019-01-01")),
+              aes(x=date,y=round(mean),col="2015 - 2018",fill="2015 - 2018"),method="glm",alpha=0.25,lwd=1.5,
+              method.args = list(family = "poisson"))+
+  labs(col="",fill="",x="Date",y="Number of deaths \n(mean from Negative Binomial distribution)")+
+  scale_colour_viridis_d(option="mako",begin=0.2,end=0.5)+
+  scale_fill_viridis_d(option = "mako",begin=0.2,end=0.5)+
+  theme(legend.position = "bottom")+
+  scale_x_date(breaks="1 year",date_labels="%Y")
+#ggsave("analysis/figures/supplementary/addis_excess_trends.png",height=4,width=5)
+
+
+ggplot()+
+  theme_bw()+
+  geom_point(data=baseline_trends %>% filter(date<as.Date("2020-01-01")),aes(x=date,y=mean))+
+  geom_smooth(data=baseline_trends %>% filter(date<as.Date("2020-01-01")),
+              aes(x=date,y=round(mean),col="2015 - 2019",fill="2015 - 2019"),
+              method="gam",alpha=0.25,lwd=1.5)+
+  geom_smooth(data=baseline_trends %>% filter(date<as.Date("2019-01-01")),
+              aes(x=date,y=round(mean),col="2015 - 2018",fill="2015 - 2018"),method="gam",alpha=0.25,lwd=1.5)+
+  labs(col="",fill="",x="Date",y="Number of deaths \n(mean from Negative Binomial distribution)")+
+  scale_colour_viridis_d(option="mako",begin=0.2,end=0.5)+
+  scale_fill_viridis_d(option = "mako",begin=0.2,end=0.5)+
+  theme(legend.position = "bottom")+
+  scale_x_date(breaks="1 year",date_labels="%Y")
+
+
+gam_1519 <- gam(mean~date,data=baseline_trends %>% filter(date<as.Date("2020-01-01")))
+summary(gam_1519)
+
+gam_1518 <- gam(mean~date,data=baseline_trends %>% filter(date<as.Date("2019-01-01")))
+summary(gam_1518)
+
+# p_1519 <- predict(gam_1519,baseline_trends)
+# p_1518 <- predict(gam_1518,baseline_trends)
+#
+# baseline_trends <- baseline_trends %>% mutate(gam_1519 = p_1519,
+#                                               gam_1518 = p_1518)
+
+p_1519 <- predict(gam_1519,baseline_trends %>% filter(date>=as.Date("2020-01-01")))
+p_1518 <- predict(gam_1518,baseline_trends %>% filter(date>=as.Date("2020-01-01")))
+
+baseline_trends <- baseline_trends %>% mutate(gam_1519 = ifelse(date>=as.Date("2020-01-01"),p_1519,NA),
+                           gam_1518 = ifelse(date>=as.Date("2020-01-01"),p_1518,NA))
+
+
+### predict function is super dodgy
+ggplot()+
+  theme_bw()+
+  geom_point(data = baseline_trends,aes(x=date,y=mean))+
+  geom_point(data = baseline_trends,
+             aes(x=date,y=gam_1519,col="2015 - 2019"))+
+  geom_point(data = baseline_trends,
+             aes(x=date,y=gam_1518,col="2015 - 2018"))+
+  geom_smooth(data = baseline_trends %>% filter(date<as.Date("2020-01-01")),
+              aes(x=date,y=mean,col="2015 - 2019",fill="2015 - 2019"),method="gam")+
+  geom_smooth(data = baseline_trends %>% filter(date<as.Date("2019-01-01")),
+              aes(x=date,y=mean,col="2015 - 2018",fill="2015-2018"),method="gam")
+
+
+ggplot()+
+  theme_bw()+
+  geom_point(data = baseline_trends,aes(x=date,y=mean))+
+  geom_point(data = baseline_trends %>% filter(date>=as.Date("2020-01-01")),
+             aes(x=date,y=gam_1519,col="2015 - 2019"))+
+  geom_point(data = baseline_trends %>% filter(date>=as.Date("2019-01-01")),
+             aes(x=date,y=gam_1518,col="2015 - 2018"))+
+  geom_smooth(data = baseline_trends %>% filter(date<as.Date("2020-01-01")),
+              aes(x=date,y=mean,col="2015 - 2019",fill="2015 - 2019"),method="gam")+
+  geom_smooth(data = baseline_trends %>% filter(date<as.Date("2019-01-01")),
+              aes(x=date,y=mean,col="2015 - 2018",fill="2015-2018"),method="gam")
+
+
+glm1 <- glm.nb(round(mean)~date,data=baseline_trends %>% filter(date<as.Date("2020-01-01")))
+glm2 <- glm.nb(round(mean)~date,data=baseline_trends %>% filter(date<as.Date("2019-01-01")))
+
+summary(glm1)
+summary(glm2)
+
+glm1_p <- predict(glm1,baseline_trends,type="response",se.fit=TRUE)
+#predict(glm1,baseline_trends %>% filter(date>=as.Date("2020-01-01")),type="response")
+
+glm2_p <- predict(glm2,baseline_trends,type="response",se.fit=TRUE)
+
+baseline_trends <- baseline_trends %>% mutate(glm1 = glm1_p$fit,glm1_se = glm1_p$se.fit,
+                                              glm2 = glm2_p$fit,glm2_se = glm2_p$se.fit,
+                                              glm1_lower = glm1 - 1.96*glm1_se,
+                                              glm1_upper = glm1 + 1.96*glm1_se,
+                                              glm2_lower = glm2 - 1.96*glm2_se,
+                                              glm2_upper = glm2 + 1.96*glm2_se)
+
+ggplot()+
+  theme_bw()+
+  geom_point(data = baseline_trends,aes(x=date,y=mean,pch="Mean (observed)"))+
+  geom_point(data = baseline_trends %>% filter(date>=as.Date("2020-01-01")),
+             aes(x=date,y=glm1,col="2015 - 2019",pch="Predicted"))+
+  geom_point(data = baseline_trends %>% filter(date>=as.Date("2020-01-01")),
+             aes(x=date,y=glm2,col="2015 - 2018",pch="Predicted"))+
+  geom_ribbon(data = baseline_trends %>% filter(date<as.Date("2020-01-01")),
+              aes(x=date,ymin=glm1_lower,ymax=glm1_upper,fill="2015 - 2019"),alpha=0.25)+
+  geom_ribbon(data = baseline_trends %>% filter(date<as.Date("2019-01-01")),
+              aes(x=date,ymin=glm2_lower,ymax=glm2_upper,fill="2015 - 2018"),alpha=0.25)+
+  geom_line(data = baseline_trends %>% filter(date<as.Date("2020-01-01")),
+            aes(x=date,y=glm1,col="2015 - 2019"),lwd=1.5)+
+  geom_line(data = baseline_trends %>% filter(date<as.Date("2019-01-01")),
+            aes(x=date,y=glm2,col="2015 - 2018"),lwd=1.5)+
+  scale_shape_manual(values=c(16,1))+
+  scale_colour_viridis_d(option="mako",begin=0.8,end=0.5)+
+  scale_fill_viridis_d(option = "mako",begin=0.8,end=0.5)+
+  theme(legend.position = "bottom")+
+  scale_x_date(breaks="1 year",date_labels="%Y")+
+  labs(x="Date",y="Mean deaths",col="",fill="",shape="")
+ggsave("analysis/figures/supplementary/addis_excess_trends_NB.png",height=4,width=5.5)
