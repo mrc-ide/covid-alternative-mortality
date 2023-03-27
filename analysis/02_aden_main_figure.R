@@ -142,7 +142,7 @@ aden_plot_d <- ggplot(ll_IFR_seroreversion )+
   scale_y_continuous(expand=c(0,0),breaks=c(0.2,0.3,0.4,0.5))
 
 
-plot_grid(aden_plot_a,
+aden_final_plot <- plot_grid(aden_plot_a,
           plot_grid(aden_plot_b+theme(legend.position = "none"),aden_plot_c+theme(legend.position = "none"),
                     plot_grid(get_legend(aden_plot_b),
                               get_legend(aden_plot_c),
@@ -150,7 +150,7 @@ plot_grid(aden_plot_a,
                     nrow=1,rel_widths = c(1,1,0.6)),
           plot_grid(aden_plot_d+theme(legend.position = "none"),get_legend(aden_plot_d),rel_widths = c(2,0.6)),
           nrow=3,align="h",axis="l",
-          rel_heights=c(1.2,1.3,1))
-ggsave("analysis/figures/aden_figure_main_updated.png",height=7,width=8)
+          rel_heights=c(1.2,1.3,1)) + theme(plot.background = element_rect(fill = "white", color = "white"))
 ### then used paint to fix the legend & align top one
+save_figs("aden_figure_main_updated", aden_final_plot,height = 7, width = 8, root = "analysis/figures", dpi = 600)
 

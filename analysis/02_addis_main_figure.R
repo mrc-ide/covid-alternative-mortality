@@ -286,7 +286,7 @@ addis_plot_d_legend <- ggplot(model_estimates)+
 #           align="hv",axis="tb")
 
 
-plot_grid(cowplot::get_legend(addis_plot_a_legend),
+addis_plot_final <- plot_grid(cowplot::get_legend(addis_plot_a_legend),
           plot_grid(addis_plot_a,
                     addis_plot_b,
                     addis_plot_c,
@@ -295,8 +295,8 @@ plot_grid(cowplot::get_legend(addis_plot_a_legend),
                     align="vh",axis="tb",
                     rel_heights=c(1,1.5)),
           cowplot::get_legend(addis_plot_d_legend),
-          nrow=3,rel_heights=c(0.1,1,0.1))
-ggsave("analysis/figures/addis_figure_main_updated.png",height=8,width=7)
-### OJ, then in paint reduce the gap between the rows and sort the legend
+          nrow=3,rel_heights=c(0.1,1,0.1)) + theme(plot.background = element_rect(fill = "white"))
+
+save_figs("addis_figure_main_updated", addis_plot_final,height = 8, width = 7, root = "analysis/figures", dpi = 600)
 
 
