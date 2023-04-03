@@ -134,7 +134,7 @@ ll_IFR_seroreversion <- readRDS("analysis/data/derived/seroprevalence/Aden/aden_
 aden_plot_d <- ggplot(ll_IFR_seroreversion )+
   geom_tile(aes(y=ifr,x=igg_halflife,fill=-ll))+
   theme_bw()+
-  scale_fill_viridis_c(begin=0.9,end=0,trans="log",breaks=c(5,25,200,1200))+
+  scale_fill_viridis_c(option="mako",begin=0.9,end=0,trans="log",breaks=c(5,25,200,1200))+
   theme(legend.position = "right")+
   guides(fill=guide_colorbar(ticks=FALSE))+
   labs(x="IgG seroreversion half-life (days)",y="Infection Fatality \nRatio (IFR) (%)",fill="Negative \nmodel log-likelihood",tag="D")+
